@@ -1,0 +1,34 @@
+.searchRoot {
+  margin: 50px 0 10px 0;
+}
+
+.searchInput {
+  width: 500px;
+  height: 40px;
+  padding: 0 20px;
+  font-size: 14px;
+  border: 1px solid gainsboro;
+  outline: none;
+  border-radius: 20px;
+}
+
+.searchBtns {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.btn {
+  font-size: 14px;
+  width: 80px;
+  height: 40px;
+  border: 1px solid gainsboro;
+  border-radius: 20px;
+  margin: 0px 10px;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn:enabled:hover {
+  background-color: #D4D4D4;
+}
