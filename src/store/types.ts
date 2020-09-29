@@ -1,45 +1,45 @@
-export type buttonState = {
+export type ButtonState = {
   isActive: boolean;
 };
 
-export type buttonAction = {
+export type ButtonAction = {
   type: "ACTIVE" | "DISSABLE";
 };
 
-export type dataState = {
+export type DataState = {
   id: string;
   title: string;
   text: string;
 };
 
-export type dataAction = {
+export type DataAction = {
   type: "ADD";
-  data: dataState[];
+  data: DataState[];
 };
 
-export type inputState = {
+export type InputState = {
   value: string;
 };
 
-export type inputAction = {
+export type InputAction = {
   type: "INPUT_CHANGE";
   value: string;
 };
 
-export type activeTabState = {
+export type ActiveTabState = {
   activeTab: string;
 };
 
-export type activeTabAction = {
+export type ActiveTabAction = {
   type: "ACTIVE_TAB";
   activeTab: string;
 };
 
-export type searchInputState = {
+export type SearchInputState = {
   value: string,
 };
 
-export type searchInputAction = {
+export type SearchInputAction = {
   type: "SEARCH_INPUT",
   value: string,
 };

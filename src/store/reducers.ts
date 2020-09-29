@@ -1,15 +1,15 @@
 import { combineReducers } from "redux";
-import {buttonAction,
-        buttonState, 
-        dataAction,
-        dataState, 
-        inputState, inputAction, 
-        activeTabState, 
-        activeTabAction, searchInputState, searchInputAction } from "./types";
+import {ButtonAction,
+        ButtonState, 
+        DataAction,
+        DataState, 
+        InputState, InputAction, 
+        ActiveTabState, 
+        ActiveTabAction, SearchInputState, SearchInputAction } from "./types";
 
-function btnReducer(state: buttonState = {
+function btnReducer(state: ButtonState = {
   isActive: true
-}, action: buttonAction) {
+}, action: ButtonAction) {
   switch (action.type) {
     case "ACTIVE":
       return {isActive: true};
@@ -20,12 +20,12 @@ function btnReducer(state: buttonState = {
   }
 }
 
-function dataReducer(state: dataState[] = [{
+function dataReducer(state: DataState[] = [{
   id: "",
   title: "",
   text: "",
 }],
-  action: dataAction) {
+  action: DataAction) {
     switch (action.type) {
       case "ADD":
         return action.data;
@@ -34,9 +34,9 @@ function dataReducer(state: dataState[] = [{
     }
 }
 
-function inputReducer(state: inputState = {
+function inputReducer(state: InputState = {
   value: ""
-}, action: inputAction) {
+}, action: InputAction) {
   switch(action.type) {
     case "INPUT_CHANGE":
       return {
@@ -47,9 +47,9 @@ function inputReducer(state: inputState = {
   }
 }
 
-function activeTabReducer(state: activeTabState = {
+function activeTabReducer(state: ActiveTabState = {
   activeTab: ""
-}, action: activeTabAction) {
+}, action: ActiveTabAction) {
   switch(action.type) {
     case "ACTIVE_TAB":
       return {
@@ -60,9 +60,9 @@ function activeTabReducer(state: activeTabState = {
   }
 }
 
-function searchInputReducer(state: searchInputState = {
+function searchInputReducer(state: SearchInputState = {
   value: "",
-}, action: searchInputAction) {
+}, action: SearchInputAction) {
   switch(action.type) {
     case "SEARCH_INPUT":
       return {

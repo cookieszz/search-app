@@ -4,10 +4,9 @@ import { connect } from "react-redux";
 import { fetchFakeData } from "../../services/fetchFakeData";
 import { rootState } from "../../store";
 import { addData, setTab, toggleBtn } from "../../store/actions";
-import { activeTabAction, buttonAction, dataAction, dataState } from "../../store/types";
+import { ActiveTabAction, ButtonAction, DataAction, DataState } from "../../store/types";
 import Tab from "../Tab/Tab";
-
-import "./Content.css"
+import styles from "./Content.module.css";
 
 const mapStateToProps = (state: rootState) => ({
   activeTab: state.activeTabReducer.activeTab,
@@ -17,8 +16,8 @@ const mapStateToProps = (state: rootState) => ({
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setTab: (data: string): activeTabAction => dispatch(setTab({ activeTab: data })),
-    addData: (data: dataState[]): dataAction => dispatch(addData(data)),
+    setTab: (data: string): ActiveTabAction => dispatch(setTab({ activeTab: data })),
+    addData: (data: DataState[]): DataAction => dispatch(addData(data)),
     onBtnActive: (data: boolean) => dispatch(toggleBtn({ isActive: data})),
   }
 }
@@ -26,11 +25,11 @@ const mapDispatchToProps = (dispatch: any) => {
 function Content(props: any) {
   const { activeTab, visibleData, setTab, addData, searchValue, onBtnActive }: {
     activeTab: string,
-    visibleData: dataState[],
+    visibleData: DataState[],
     searchValue: string,
-    setTab: (data: string) => activeTabAction,
-    addData: (data: dataState[]) => dataAction,
-    onBtnActive: (data: boolean) => buttonAction,
+    setTab: (data: string) => ActiveTabAction,
+    addData: (data: DataState[]) => DataAction,
+    onBtnActive: (data: boolean) => ButtonAction,
   } = props;
 
   const fetchQuery = useQuery(["fetchData", searchValue], fetchFakeData);
@@ -45,13 +44,13 @@ function Content(props: any) {
   }, [addData, onBtnActive, queryData, queryLoading])
 
   return (
-    <div className="contentRoot">
+    <div className={styles.contentRoot}>
       {queryLoading ?
         <div>Loading...</div> :
         !queryLoading && !visibleData.length ?
           <div>Can't find any data</div> :
           <>
-            <div className="contentTabs">
+            <div className={styles.contentTabs}>
               {visibleData.map(item => {
                 const { id, title } = item;
 
@@ -62,7 +61,7 @@ function Content(props: any) {
                 )
               })}
             </div>
-            <div className="contentText">
+            <div className={styles.contentText}>
               {visibleData.map(item => {
                 if (item.id === activeTab) {
                   return (

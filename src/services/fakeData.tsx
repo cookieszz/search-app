@@ -1,10 +1,10 @@
-export type fakeDataType = {
+export type FakeDataType = {
   id: string;
   title: string;
   text: string;
 };
 
-export const fakeData: fakeDataType[] = [
+export const fakeData: FakeDataType[] = [
   {
     id: "1",
     title: "Nam cursus sollicitudin diam",

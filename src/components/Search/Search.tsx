@@ -2,9 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { rootState } from "../../store";
 import { setInput, setSearch } from "../../store/actions";
-import { inputAction, searchInputAction } from "../../store/types";
-
-import "./Search.css"
+import { InputAction, SearchInputAction } from "../../store/types";
+import styles from "./Search.module.css";
 
 const mapStateToProps = (state: rootState) => ({
   inputValue: state.inputReducer.value,
@@ -13,8 +12,8 @@ const mapStateToProps = (state: rootState) => ({
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    onInputChange: (data: string): inputAction => dispatch(setInput({ value: data})),
-    setSearchValue: (data: string): searchInputAction => dispatch(setSearch({ value: data})),
+    onInputChange: (data: string): InputAction => dispatch(setInput({ value: data})),
+    setSearchValue: (data: string): SearchInputAction => dispatch(setSearch({ value: data})),
   }
 };
 
@@ -22,8 +21,8 @@ function Search(props: any) {
   const { inputValue, isBtnActive, onInputChange, setSearchValue }: {
     inputValue: string,
     isBtnActive: boolean,
-    onInputChange: (data: string) => inputAction,
-    setSearchValue: (data: string) => searchInputAction
+    onInputChange: (data: string) => InputAction,
+    setSearchValue: (data: string) => SearchInputAction
   } = props;
 
   const searchBtn = (e: React.FormEvent) => {
@@ -32,16 +31,16 @@ function Search(props: any) {
   };
 
   return (
-    <div className="searchRoot">
+    <div className={styles.searchRoot}>
       <form>
         <input
           placeholder="Search"
-          className="searchInput"
+          className={styles.searchInput}
           value={inputValue}
           onChange={(e) => onInputChange(e.target.value)}
         />
-        <div className="searchBtns">
-          <button className="btn" type="submit" onClick={searchBtn} disabled={!isBtnActive}>Search</button>
+        <div className={styles.searchBtns}>
+          <button className={styles.btn} type="submit" onClick={searchBtn} disabled={!isBtnActive}>Search</button>
         </div>
       </form>
     </div>
