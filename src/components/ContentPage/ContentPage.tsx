@@ -5,8 +5,9 @@ import { fetchFakeData } from "../../services/fetchFakeData";
 import { rootState } from "../../store";
 import { addData, setTab, toggleBtn } from "../../store/actions";
 import { ActiveTabAction, ButtonAction, DataAction, DataState } from "../../store/types";
+import SearchPage from "../SearchPage/SearchPage";
 import Tab from "../Tab/Tab";
-import styles from "./Content.module.css";
+import styles from "./ContentPage.module.css";
 
 const mapStateToProps = (state: rootState) => ({
   activeTab: state.activeTabReducer.activeTab,
@@ -22,7 +23,7 @@ const mapDispatchToProps = (dispatch: any) => {
   }
 }
 
-function Content(props: any) {
+function ContentPage(props: any) {
   const { activeTab, visibleData, setTab, addData, searchValue, onBtnActive }: {
     activeTab: string,
     visibleData: DataState[],
@@ -44,40 +45,43 @@ function Content(props: any) {
   }, [addData, onBtnActive, queryData, queryLoading])
 
   return (
-    <div className={styles.contentRoot}>
-      {queryLoading ?
-        <div>Loading...</div> :
-        !queryLoading && !visibleData.length ?
-          <div>Can't find any data</div> :
-          <>
-            <div className={styles.contentTabs}>
-              {visibleData.map(item => {
-                const { id, title } = item;
-
-                return (
-                  <div key={id}>
-                    <Tab label={title} activeTab={activeTab} id={id} onClick={setTab} />
-                  </div>
-                )
-              })}
-            </div>
-            <div className={styles.contentText}>
-              {visibleData.map(item => {
-                if (item.id === activeTab) {
+    <>
+      <SearchPage />
+      <div className={styles.contentRoot}>
+        {queryLoading ?
+          <div>Loading...</div> :
+          !queryLoading && !visibleData.length ?
+            <div>Can't find any data</div> :
+            <>
+              <div className={styles.contentTabs}>
+                {visibleData.map(item => {
+                  const { id, title } = item;
+                
                   return (
-                    <div key={item.id}>
-                      <p>{item.title}</p>
-                      <div>{item.text}</div>
+                    <div key={id}>
+                      <Tab label={title} activeTab={activeTab} id={id} onClick={setTab} />
                     </div>
                   )
-                }
-                return undefined;
-              })}
-            </div>
-          </>
-      }
-    </div>
+                })}
+              </div>
+              <div className={styles.contentText}>
+                {visibleData.map(item => {
+                  if (item.id === activeTab) {
+                    return (
+                      <div key={item.id}>
+                        <p>{item.title}</p>
+                        <div>{item.text}</div>
+                      </div>
+                    )
+                  }
+                  return undefined;
+                })}
+              </div>
+            </>
+        }
+      </div>
+    </>
   )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Content);
+export default connect(mapStateToProps, mapDispatchToProps)(ContentPage);
