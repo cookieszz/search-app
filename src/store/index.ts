@@ -1,5 +1,6 @@
 import { createStore } from "redux";
-import reducers from "./reducers";
+import rootReducer from "./rootReducer";
 
-export type rootState = ReturnType<typeof reducers>;
-export const store = createStore(reducers);
+export type rootState = ReturnType<typeof rootReducer>;
+
+export const store = createStore(rootReducer);

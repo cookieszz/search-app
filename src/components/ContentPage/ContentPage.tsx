@@ -3,48 +3,54 @@ import { useQuery } from "react-query";
 import { connect } from "react-redux";
 import { fetchFakeData } from "../../services/fetchFakeData";
 import { rootState } from "../../store";
-import { addData, setTab, toggleBtn } from "../../store/actions";
+import {
+  setActiveTabAction,
+  setButtonStateAction,
+  setSearchResultAction,
+} from "../../store/search/action";
 import {
   ActiveTabAction,
-  ButtonAction,
-  DataAction,
-  DataState,
-} from "../../store/types";
+  ButtonStateAction,
+  DataObj,
+  SearchResultAction,
+} from "../../store/search/types";
 import SearchPage from "../SearchPage/SearchPage";
 import Tab from "../Tab/Tab";
 import styles from "./ContentPage.module.css";
 
 const mapStateToProps = (state: rootState) => ({
-  activeTab: state.activeTabReducer.activeTab,
-  visibleData: state.dataReducer,
-  searchValue: state.searchInputReducer.value,
+  activeTab: state.search.activeTab,
+  searchResult: state.search.searchResult,
+  searchValue: state.search.searchValue,
 });
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    setTab: (data: string): ActiveTabAction =>
-      dispatch(setTab({ activeTab: data })),
-    addData: (data: DataState[]): DataAction => dispatch(addData(data)),
-    onBtnActive: (data: boolean) => dispatch(toggleBtn({ isActive: data })),
+    setActiveTab: (tab: string): ActiveTabAction =>
+      dispatch(setActiveTabAction(tab)),
+    setSearchResult: (searchData: DataObj[]): SearchResultAction =>
+      dispatch(setSearchResultAction(searchData)),
+    setButtonState: (isBtnActive: boolean): ButtonStateAction =>
+      dispatch(setButtonStateAction(isBtnActive)),
   };
 };
 
 type ContentPageProps = {
   activeTab: string;
-  visibleData: DataState[];
+  searchResult: DataObj[];
   searchValue: string;
-  setTab: (data: string) => ActiveTabAction;
-  addData: (data: DataState[]) => DataAction;
-  onBtnActive: (data: boolean) => ButtonAction;
+  setActiveTab: (tab: string) => ActiveTabAction;
+  setSearchResult: (searchData: DataObj[]) => SearchResultAction;
+  setButtonState: (isBtnActive: boolean) => ButtonStateAction;
 };
 
 function ContentPage({
   activeTab,
-  visibleData,
-  setTab,
-  addData,
+  searchResult,
   searchValue,
-  onBtnActive,
+  setActiveTab,
+  setSearchResult,
+  setButtonState,
 }: ContentPageProps) {
   const fetchQuery = useQuery(["fetchData", searchValue], fetchFakeData);
 
@@ -55,9 +61,9 @@ function ContentPage({
   const queryData = useMemo(() => fetchQuery.data || [], [fetchQuery.data]);
 
   useEffect(() => {
-    addData(queryData);
-    onBtnActive(!queryLoading);
-  }, [addData, onBtnActive, queryData, queryLoading]);
+    setSearchResult(queryData);
+    setButtonState(!queryLoading);
+  }, [queryData, queryLoading, setButtonState, setSearchResult]);
 
   return (
     <>
@@ -65,12 +71,12 @@ function ContentPage({
       <div className={styles.contentRoot}>
         {queryLoading ? (
           <div>Loading...</div>
-        ) : !queryLoading && !visibleData.length ? (
+        ) : !queryLoading && !searchResult.length ? (
           <div>Can't find any data</div>
         ) : (
           <>
             <div className={styles.contentTabs}>
-              {visibleData.map((item) => {
+              {searchResult.map((item) => {
                 const { id, title } = item;
 
                 return (
@@ -79,14 +85,14 @@ function ContentPage({
                       label={title}
                       activeTab={activeTab}
                       id={id}
-                      onClick={setTab}
+                      onClick={setActiveTab}
                     />
                   </div>
                 );
               })}
             </div>
             <div className={styles.contentText}>
-              {visibleData.map((item) => {
+              {searchResult.map((item) => {
                 if (item.id === activeTab) {
                   return (
                     <div key={item.id}>

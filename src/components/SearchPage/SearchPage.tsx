@@ -2,29 +2,32 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { rootState } from "../../store";
-import { setInput, setSearch } from "../../store/actions";
-import { InputAction, SearchInputAction } from "../../store/types";
+import {
+  setInputChangeAction,
+  setSearchValueAction,
+} from "../../store/search/action";
+import { InputChangeAction, SearchValueAction } from "../../store/search/types";
 import styles from "./SearchPage.module.css";
 
 const mapStateToProps = (state: rootState) => ({
-  inputValue: state.inputReducer.value,
-  isBtnActive: state.btnReducer.isActive,
+  inputValue: state.search.inputValue,
+  isBtnActive: state.search.isButtonActive,
 });
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    onInputChange: (data: string): InputAction =>
-      dispatch(setInput({ value: data })),
-    setSearchValue: (data: string): SearchInputAction =>
-      dispatch(setSearch({ value: data })),
+    onInputChange: (input: string): InputChangeAction =>
+      dispatch(setInputChangeAction(input)),
+    setSearchValue: (value: string): SearchValueAction =>
+      dispatch(setSearchValueAction(value)),
   };
 };
 
 type SearchPageProps = {
   inputValue: string;
   isBtnActive: boolean;
-  onInputChange: (data: string) => InputAction;
-  setSearchValue: (data: string) => SearchInputAction;
+  onInputChange: (input: string) => InputChangeAction;
+  setSearchValue: (value: string) => SearchValueAction;
 };
 
 function SearchPage({
