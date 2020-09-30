@@ -8,18 +8,17 @@ import SearchPage from "../SearchPage/SearchPage";
 const appHistory = createBrowserHistory();
 
 function App() {
-
   return (
     <div className={styles.appRoot}>
       <Router history={appHistory}>
         <Switch>
-          <Route exact path="/search" component={ContentPage}/>
-          <Route exact path="/" component={SearchPage}/>
-          <Redirect to="/"/>
+          <Route exact path="/search" component={ContentPage} />
+          <Route exact path="/" component={SearchPage} />
+          <Redirect to="/" />
         </Switch>
       </Router>
     </div>
-  )
+  );
 }
 
 export default App;

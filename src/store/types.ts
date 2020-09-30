@@ -36,10 +36,10 @@ export type ActiveTabAction = {
 };
 
 export type SearchInputState = {
-  value: string,
+  value: string;
 };
 
 export type SearchInputAction = {
-  type: "SEARCH_INPUT",
-  value: string,
+  type: "SEARCH_INPUT";
+  value: string;
 };

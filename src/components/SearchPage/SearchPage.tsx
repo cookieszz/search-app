@@ -13,24 +13,31 @@ const mapStateToProps = (state: rootState) => ({
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    onInputChange: (data: string): InputAction => dispatch(setInput({ value: data})),
-    setSearchValue: (data: string): SearchInputAction => dispatch(setSearch({ value: data})),
-  }
+    onInputChange: (data: string): InputAction =>
+      dispatch(setInput({ value: data })),
+    setSearchValue: (data: string): SearchInputAction =>
+      dispatch(setSearch({ value: data })),
+  };
 };
 
-function Search(props: any) {
-  const { inputValue, isBtnActive, onInputChange, setSearchValue }: {
-    inputValue: string,
-    isBtnActive: boolean,
-    onInputChange: (data: string) => InputAction,
-    setSearchValue: (data: string) => SearchInputAction
-  } = props;
+type SearchPageProps = {
+  inputValue: string;
+  isBtnActive: boolean;
+  onInputChange: (data: string) => InputAction;
+  setSearchValue: (data: string) => SearchInputAction;
+};
 
+function SearchPage({
+  inputValue,
+  isBtnActive,
+  onInputChange,
+  setSearchValue,
+}: SearchPageProps) {
   const history = useHistory();
 
   useEffect(() => {
     let path = history.location.search.slice(7);
-    if(path) {
+    if (path) {
       onInputChange(path);
       setSearchValue(path);
     }
@@ -52,11 +59,18 @@ function Search(props: any) {
           onChange={(e) => onInputChange(e.target.value)}
         />
         <div className={styles.searchBtns}>
-          <button className={styles.btn} type="submit" onClick={searchBtn} disabled={!isBtnActive}>Search</button>
+          <button
+            className={styles.btn}
+            type="submit"
+            onClick={searchBtn}
+            disabled={!isBtnActive}
+          >
+            Search
+          </button>
         </div>
       </form>
     </div>
-  )
+  );
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPage);
