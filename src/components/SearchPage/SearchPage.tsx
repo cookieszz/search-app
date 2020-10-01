@@ -1,5 +1,5 @@
-import { InputLabel, MenuItem, Select } from "@material-ui/core";
-import FormControl from "@material-ui/core/FormControl/FormControl";
+import { TextField } from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete/Autocomplete";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
@@ -11,6 +11,7 @@ import {
   setSearchValueAction,
 } from "../../store/search/action";
 import { InputChangeAction, SearchValueAction } from "../../store/search/types";
+import { Languages } from "../../types/Languages";
 import styles from "./SearchPage.module.css";
 import { useSearchPageStyles } from "./SearchPage.style";
 
@@ -43,7 +44,7 @@ function SearchPage({
 }: SearchPageProps) {
   const history = useHistory();
   const { t, i18n } = useTranslation(Namespaces.Search);
-  const [s, setS] = useState("en");
+  const [lang, setLang] = useState<Languages>(Languages.en);
 
   const materialStyles = useSearchPageStyles();
 
@@ -60,6 +61,7 @@ function SearchPage({
     setSearchValue(inputValue);
     history.push(`/search?query=${inputValue}`);
   };
+
   return (
     <div className={styles.searchRoot}>
       <form>
@@ -79,19 +81,19 @@ function SearchPage({
           </button>
         </div>
       </form>
-      <FormControl className={materialStyles.searchForm}>
-        <InputLabel id="demo-simple-select-outlined-label">Language</InputLabel>
-        <Select
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
-          value={s}
-          // onChange={(e) => setS(e.target.value)}
-          // label="Age"
-        >
-          <MenuItem value={"en"}>En</MenuItem>
-          <MenuItem value={"de"}>DE</MenuItem>
-        </Select>
-      </FormControl>
+      <Autocomplete
+        options={Object.values(Languages)}
+        // getOptionLabel
+        disableClearable
+        size="small"
+        className={materialStyles.languageInput}
+        value={lang}
+        onChange={(e, value) => {
+          setLang(value);
+          i18n.changeLanguage(value);
+        }}
+        renderInput={(params) => <TextField {...params} variant="outlined" />}
+      />
     </div>
   );
 }

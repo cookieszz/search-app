@@ -5,13 +5,7 @@ const initialSearchState: SearchState = {
   inputValue: "",
   activeTab: "",
   searchValue: "",
-  searchResult: [
-    {
-      id: "",
-      title: "",
-      text: "",
-    },
-  ],
+  searchResult: [],
 };
 
 const {
