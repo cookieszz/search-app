@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { connect } from "react-redux";
 import { fetchFakeData } from "../../services/fetchFakeData";
@@ -17,6 +18,7 @@ import {
 import SearchPage from "../SearchPage/SearchPage";
 import Tab from "../Tab/Tab";
 import styles from "./ContentPage.module.css";
+import { Namespaces } from "../../i18n";
 
 const mapStateToProps = (state: rootState) => ({
   activeTab: state.search.activeTab,
@@ -52,6 +54,7 @@ function ContentPage({
   setSearchResult,
   setButtonState,
 }: ContentPageProps) {
+  const { t } = useTranslation(Namespaces.Search);
   const fetchQuery = useQuery(["fetchData", searchValue], fetchFakeData);
 
   const queryLoading = useMemo(() => fetchQuery.status === "loading", [
@@ -70,9 +73,9 @@ function ContentPage({
       <SearchPage />
       <div className={styles.contentRoot}>
         {queryLoading ? (
-          <div>Loading...</div>
+          <div>{t("loading")}</div>
         ) : !queryLoading && !searchResult.length ? (
-          <div>Can't find any data</div>
+          <div>{t("without_result")}</div>
         ) : (
           <>
             <div className={styles.contentTabs}>

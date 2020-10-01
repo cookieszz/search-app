@@ -1,6 +1,10 @@
-import React, { useEffect } from "react";
+import { InputLabel, MenuItem, Select } from "@material-ui/core";
+import FormControl from "@material-ui/core/FormControl/FormControl";
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { Namespaces } from "../../i18n";
 import { rootState } from "../../store";
 import {
   setInputChangeAction,
@@ -8,6 +12,7 @@ import {
 } from "../../store/search/action";
 import { InputChangeAction, SearchValueAction } from "../../store/search/types";
 import styles from "./SearchPage.module.css";
+import { useSearchPageStyles } from "./SearchPage.style";
 
 const mapStateToProps = (state: rootState) => ({
   inputValue: state.search.inputValue,
@@ -37,9 +42,13 @@ function SearchPage({
   setSearchValue,
 }: SearchPageProps) {
   const history = useHistory();
+  const { t, i18n } = useTranslation(Namespaces.Search);
+  const [s, setS] = useState("en");
+
+  const materialStyles = useSearchPageStyles();
 
   useEffect(() => {
-    let path = history.location.search.slice(7);
+    const path = history.location.search.slice(7);
     if (path) {
       onInputChange(path);
       setSearchValue(path);
@@ -51,12 +60,11 @@ function SearchPage({
     setSearchValue(inputValue);
     history.push(`/search?query=${inputValue}`);
   };
-
   return (
     <div className={styles.searchRoot}>
       <form>
         <input
-          placeholder="*all - to search all"
+          placeholder={t("search_input.input_placeholder")}
           className={styles.searchInput}
           value={inputValue}
           onChange={(e) => onInputChange(e.target.value)}
@@ -64,14 +72,26 @@ function SearchPage({
         <div className={styles.searchBtns}>
           <button
             className={styles.btn}
-            type="submit"
             onClick={searchBtn}
             disabled={!isBtnActive}
           >
-            Search
+            {t("search_input.submit")}
           </button>
         </div>
       </form>
+      <FormControl className={materialStyles.searchForm}>
+        <InputLabel id="demo-simple-select-outlined-label">Language</InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          value={s}
+          // onChange={(e) => setS(e.target.value)}
+          // label="Age"
+        >
+          <MenuItem value={"en"}>En</MenuItem>
+          <MenuItem value={"de"}>DE</MenuItem>
+        </Select>
+      </FormControl>
     </div>
   );
 }

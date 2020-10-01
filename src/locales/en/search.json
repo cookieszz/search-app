@@ -1,0 +1,8 @@
+{
+  "search_input": {
+    "input_placeholder": "*all - to search all",
+    "submit": "search"
+  },
+  "loading": "Loading...",
+  "without_result": "Can't find any data"
+}
