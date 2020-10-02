@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+import CustomSubmitBtn from "../../elements/CustomSubmitBtn/CustomSubmitBtn";
+import CustomOutlinedInput from "../../elements/CustomTextField/CustomOutlinedInput";
 import { Namespaces } from "../../i18n";
 import { rootState } from "../../store";
 import {
@@ -12,7 +14,6 @@ import {
 } from "../../store/search/action";
 import { InputChangeAction, SearchValueAction } from "../../store/search/types";
 import { Languages } from "../../types/Languages";
-import styles from "./SearchPage.module.css";
 import { useSearchPageStyles } from "./SearchPage.style";
 
 const mapStateToProps = (state: rootState) => ({
@@ -46,7 +47,7 @@ function SearchPage({
   const { t, i18n } = useTranslation(Namespaces.Search);
   const [lang, setLang] = useState<Languages>(Languages.en);
 
-  const materialStyles = useSearchPageStyles();
+  const classes = useSearchPageStyles();
 
   useEffect(() => {
     const path = history.location.search.slice(7);
@@ -63,30 +64,12 @@ function SearchPage({
   };
 
   return (
-    <div className={styles.searchRoot}>
-      <form>
-        <input
-          placeholder={t("search_input.input_placeholder")}
-          className={styles.searchInput}
-          value={inputValue}
-          onChange={(e) => onInputChange(e.target.value)}
-        />
-        <div className={styles.searchBtns}>
-          <button
-            className={styles.btn}
-            onClick={searchBtn}
-            disabled={!isBtnActive}
-          >
-            {t("search_input.submit")}
-          </button>
-        </div>
-      </form>
+    <div className={classes.searchRoot}>
       <Autocomplete
         options={Object.values(Languages)}
-        // getOptionLabel
         disableClearable
         size="small"
-        className={materialStyles.languageInput}
+        className={classes.languageInput}
         value={lang}
         onChange={(e, value) => {
           setLang(value);
@@ -94,6 +77,25 @@ function SearchPage({
         }}
         renderInput={(params) => <TextField {...params} variant="outlined" />}
       />
+      <form>
+        <CustomOutlinedInput
+          id="outlined-basic"
+          className={classes.searchInput}
+          placeholder={t("search_input.input_placeholder")}
+          value={inputValue}
+          onChange={(e) => onInputChange(e.target.value)}
+        />
+        <div className={classes.searchBtns}>
+          <CustomSubmitBtn
+            type="submit"
+            variant="outlined"
+            onClick={searchBtn}
+            disabled={!isBtnActive}
+          >
+            {t("search_input.submit")}
+          </CustomSubmitBtn>
+        </div>
+      </form>
     </div>
   );
 }

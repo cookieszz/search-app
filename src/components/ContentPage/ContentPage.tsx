@@ -19,6 +19,7 @@ import SearchPage from "../SearchPage/SearchPage";
 import Tab from "../Tab/Tab";
 import styles from "./ContentPage.module.css";
 import { Namespaces } from "../../i18n";
+import { CircularProgress } from "@material-ui/core";
 
 const mapStateToProps = (state: rootState) => ({
   activeTab: state.search.activeTab,
@@ -73,8 +74,9 @@ function ContentPage({
       <SearchPage />
       <div className={styles.contentRoot}>
         {queryLoading ? (
-          <div>{t("loading")}</div>
-        ) : !queryLoading && !searchResult.length ? (
+          <CircularProgress color="primary" className={styles.loading} />
+        ) : // <div>{t("loading")}</div>
+        !queryLoading && !searchResult.length ? (
           <div>{t("without_result")}</div>
         ) : (
           <>
