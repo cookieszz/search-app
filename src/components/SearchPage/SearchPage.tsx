@@ -95,6 +95,7 @@ function SearchPage({
         size="small"
         className={classes.languageInput}
         value={language}
+        disabled={!isBtnActive}
         onChange={(e, value) => {
           setLanguage(value);
           i18n.changeLanguage(value);
