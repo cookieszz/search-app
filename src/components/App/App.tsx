@@ -6,6 +6,7 @@ import { createBrowserHistory } from "history";
 import SearchPage from "../SearchPage/SearchPage";
 import { MuiThemeProvider } from "@material-ui/core";
 import { appTheme } from "../../theme";
+import { BasicRoutes } from "../../constants/basicRoutes";
 
 const appHistory = createBrowserHistory();
 
@@ -15,9 +16,9 @@ function App() {
       <div className={styles.appRoot}>
         <Router history={appHistory}>
           <Switch>
-            <Route exact path="/search" component={ContentPage} />
-            <Route exact path="/" component={SearchPage} />
-            <Redirect to="/" />
+            <Route exact path={BasicRoutes.SEARCH} component={ContentPage} />
+            <Route exact path={BasicRoutes.HOME} component={SearchPage} />
+            <Redirect to={BasicRoutes.HOME} />
           </Switch>
         </Router>
       </div>

@@ -1,6 +1,6 @@
 import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete/Autocomplete";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -8,10 +8,12 @@ import CustomSubmitBtn from "../../elements/CustomSubmitBtn/CustomSubmitBtn";
 import CustomOutlinedInput from "../../elements/CustomTextField/CustomOutlinedInput";
 import { Namespaces } from "../../i18n";
 import { rootState } from "../../store";
+import { setInterfaceLanguageAction } from "../../store/languages/actions";
+import { InterfaceLanguageAction } from "../../store/languages/types";
 import {
   setInputChangeAction,
   setSearchValueAction,
-} from "../../store/search/action";
+} from "../../store/search/actions";
 import { InputChangeAction, SearchValueAction } from "../../store/search/types";
 import { Languages } from "../../types/Languages";
 import { useSearchPageStyles } from "./SearchPage.style";
@@ -19,6 +21,7 @@ import { useSearchPageStyles } from "./SearchPage.style";
 const mapStateToProps = (state: rootState) => ({
   inputValue: state.search.inputValue,
   isBtnActive: state.search.isButtonActive,
+  language: state.languages.interfaceLanguage,
 });
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -27,27 +30,48 @@ const mapDispatchToProps = (dispatch: any) => {
       dispatch(setInputChangeAction(input)),
     setSearchValue: (value: string): SearchValueAction =>
       dispatch(setSearchValueAction(value)),
+    setLanguage: (lang: Languages): InterfaceLanguageAction =>
+      dispatch(setInterfaceLanguageAction(lang)),
   };
 };
 
 type SearchPageProps = {
   inputValue: string;
   isBtnActive: boolean;
+  language: Languages;
   onInputChange: (input: string) => InputChangeAction;
   setSearchValue: (value: string) => SearchValueAction;
+  setLanguage: (lang: Languages) => InterfaceLanguageAction;
 };
 
 function SearchPage({
   inputValue,
   isBtnActive,
+  language,
   onInputChange,
   setSearchValue,
+  setLanguage,
 }: SearchPageProps) {
   const history = useHistory();
   const { t, i18n } = useTranslation(Namespaces.Search);
-  const [lang, setLang] = useState<Languages>(Languages.en);
 
   const classes = useSearchPageStyles();
+
+  useMemo(() => {
+    const storageLanguage = localStorage.getItem("i18nextLng");
+    switch (storageLanguage) {
+      case "de":
+        setLanguage(Languages.de);
+        break;
+      case "en":
+        setLanguage(Languages.en);
+        break;
+      default:
+        setLanguage(Languages.en);
+        break;
+    }
+    return storageLanguage;
+  }, [setLanguage]);
 
   useEffect(() => {
     const path = history.location.search.slice(7);
@@ -70,9 +94,9 @@ function SearchPage({
         disableClearable
         size="small"
         className={classes.languageInput}
-        value={lang}
+        value={language}
         onChange={(e, value) => {
-          setLang(value);
+          setLanguage(value);
           i18n.changeLanguage(value);
         }}
         renderInput={(params) => <TextField {...params} variant="outlined" />}

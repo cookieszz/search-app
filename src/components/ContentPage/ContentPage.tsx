@@ -8,7 +8,7 @@ import {
   setActiveTabAction,
   setButtonStateAction,
   setSearchResultAction,
-} from "../../store/search/action";
+} from "../../store/search/actions";
 import {
   ActiveTabAction,
   ButtonStateAction,
