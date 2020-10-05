@@ -103,7 +103,6 @@ function SearchPage({
       />
       <form>
         <CustomOutlinedInput
-          id="outlined-basic"
           className={classes.searchInput}
           placeholder={t("search_input.input_placeholder")}
           value={inputValue}

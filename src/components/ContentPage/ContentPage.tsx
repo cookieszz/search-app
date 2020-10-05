@@ -17,9 +17,9 @@ import {
 } from "../../store/search/types";
 import SearchPage from "../SearchPage/SearchPage";
 import Tab from "../Tab/Tab";
-import styles from "./ContentPage.module.css";
 import { Namespaces } from "../../i18n";
 import { CircularProgress } from "@material-ui/core";
+import { useContentPageStyles } from "./ContentPage.styles";
 
 const mapStateToProps = (state: rootState) => ({
   activeTab: state.search.activeTab,
@@ -56,6 +56,8 @@ function ContentPage({
   setButtonState,
 }: ContentPageProps) {
   const { t } = useTranslation(Namespaces.Search);
+  const classes = useContentPageStyles();
+
   const fetchQuery = useQuery(["fetchData", searchValue], fetchFakeData);
 
   const queryLoading = useMemo(() => fetchQuery.status === "loading", [
@@ -72,15 +74,14 @@ function ContentPage({
   return (
     <>
       <SearchPage />
-      <div className={styles.contentRoot}>
+      <div className={classes.contentRoot}>
         {queryLoading ? (
-          <CircularProgress color="primary" className={styles.loading} />
-        ) : // <div>{t("loading")}</div>
-        !queryLoading && !searchResult.length ? (
+          <CircularProgress color="primary" />
+        ) : !queryLoading && !searchResult.length ? (
           <div>{t("without_result")}</div>
         ) : (
           <>
-            <div className={styles.contentTabs}>
+            <div className={classes.contentTabs}>
               {searchResult.map((item) => {
                 const { id, title } = item;
 
@@ -96,7 +97,7 @@ function ContentPage({
                 );
               })}
             </div>
-            <div className={styles.contentText}>
+            <div className={classes.contentText}>
               {searchResult.map((item) => {
                 if (item.id === activeTab) {
                   return (

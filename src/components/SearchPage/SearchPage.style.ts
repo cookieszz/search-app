@@ -20,7 +20,7 @@ export const useSearchPageStyles = makeStyles((theme) => ({
     width: 600,
 
     [theme.breakpoints.down("xs")]: {
-      width: 320,
+      width: 300,
     },
   },
 }));
