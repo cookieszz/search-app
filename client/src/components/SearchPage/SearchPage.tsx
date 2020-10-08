@@ -11,10 +11,10 @@ import { rootState } from "../../store";
 import { setInterfaceLanguageAction } from "../../store/languages/actions";
 import { InterfaceLanguageAction } from "../../store/languages/types";
 import {
+  getSearchResultThunk,
   setInputChangeAction,
-  setSearchValueAction,
 } from "../../store/search/actions";
-import { InputChangeAction, SearchValueAction } from "../../store/search/types";
+import { InputChangeAction } from "../../store/search/types";
 import { Languages } from "../../types/Languages";
 import { useSearchPageStyles } from "./SearchPage.style";
 
@@ -28,8 +28,8 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     onInputChange: (input: string): InputChangeAction =>
       dispatch(setInputChangeAction(input)),
-    setSearchValue: (value: string): SearchValueAction =>
-      dispatch(setSearchValueAction(value)),
+    fetchData: (value: string): Promise<void> =>
+      dispatch(getSearchResultThunk(value)),
     setLanguage: (lang: Languages): InterfaceLanguageAction =>
       dispatch(setInterfaceLanguageAction(lang)),
   };
@@ -40,8 +40,8 @@ type SearchPageProps = {
   isBtnActive: boolean;
   language: Languages;
   onInputChange: (input: string) => InputChangeAction;
-  setSearchValue: (value: string) => SearchValueAction;
   setLanguage: (lang: Languages) => InterfaceLanguageAction;
+  fetchData: (value: string) => Promise<void>;
 };
 
 function SearchPage({
@@ -49,8 +49,8 @@ function SearchPage({
   isBtnActive,
   language,
   onInputChange,
-  setSearchValue,
   setLanguage,
+  fetchData,
 }: SearchPageProps) {
   const history = useHistory();
   const { t, i18n } = useTranslation(Namespaces.Search);
@@ -73,17 +73,20 @@ function SearchPage({
     return storageLanguage;
   }, [setLanguage]);
 
+  const path = useMemo(() => history.location.search.slice(7), [
+    history.location.search,
+  ]);
+
   useEffect(() => {
-    const path = history.location.search.slice(7);
     if (path) {
       onInputChange(path);
-      setSearchValue(path);
+      fetchData(path);
     }
-  }, [history.location.search, onInputChange, setSearchValue]);
+  }, [history.location.search, fetchData, onInputChange, path]);
 
   const searchBtn = (e: React.FormEvent) => {
     e.preventDefault();
-    setSearchValue(inputValue);
+    path !== inputValue && fetchData(inputValue);
     history.push(`/search?query=${inputValue}`);
   };
 

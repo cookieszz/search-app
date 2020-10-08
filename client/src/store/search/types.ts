@@ -17,7 +17,11 @@ export type SearchState = {
   inputValue: string;
   activeTab: string;
   searchValue: string;
-  searchResult: DataObj[];
+  searchResult: {
+    isLoading: boolean;
+    isError?: string | object;
+    payload: DataObj[];
+  };
 };
 
 export type ButtonStateAction = {
@@ -42,7 +46,9 @@ export type SearchValueAction = {
 
 export type SearchResultAction = {
   type: SearchActions.SEARCH_RESULT;
-  searchResult: DataObj[];
+  isLoading: boolean;
+  isError?: string | object;
+  payload: DataObj[];
 };
 
 export type SearchActionTypes =

@@ -1,19 +1,15 @@
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useQuery } from "react-query";
 import { connect } from "react-redux";
-import { fetchFakeData } from "../../services/fetchFakeData";
 import { rootState } from "../../store";
 import {
   setActiveTabAction,
   setButtonStateAction,
-  setSearchResultAction,
 } from "../../store/search/actions";
 import {
   ActiveTabAction,
   ButtonStateAction,
   DataObj,
-  SearchResultAction,
 } from "../../store/search/types";
 import SearchPage from "../SearchPage/SearchPage";
 import Tab from "../Tab/Tab";
@@ -31,8 +27,6 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     setActiveTab: (tab: string): ActiveTabAction =>
       dispatch(setActiveTabAction(tab)),
-    setSearchResult: (searchData: DataObj[]): SearchResultAction =>
-      dispatch(setSearchResultAction(searchData)),
     setButtonState: (isBtnActive: boolean): ButtonStateAction =>
       dispatch(setButtonStateAction(isBtnActive)),
   };
@@ -40,10 +34,13 @@ const mapDispatchToProps = (dispatch: any) => {
 
 type ContentPageProps = {
   activeTab: string;
-  searchResult: DataObj[];
+  searchResult: {
+    isLoading: boolean;
+    isError?: string | object;
+    payload: DataObj[];
+  };
   searchValue: string;
   setActiveTab: (tab: string) => ActiveTabAction;
-  setSearchResult: (searchData: DataObj[]) => SearchResultAction;
   setButtonState: (isBtnActive: boolean) => ButtonStateAction;
 };
 
@@ -52,37 +49,35 @@ function ContentPage({
   searchResult,
   searchValue,
   setActiveTab,
-  setSearchResult,
   setButtonState,
 }: ContentPageProps) {
   const { t } = useTranslation(Namespaces.Search);
   const classes = useContentPageStyles();
 
-  const fetchQuery = useQuery(["fetchData", searchValue], fetchFakeData);
-
-  const queryLoading = useMemo(() => fetchQuery.status === "loading", [
-    fetchQuery.status,
-  ]);
-
-  const queryData = useMemo(() => fetchQuery.data || [], [fetchQuery.data]);
+  const { isLoading, isError, payload } = searchResult;
+  const loading = useMemo(() => isLoading, [isLoading]);
+  const error = useMemo(() => isError, [isError]);
+  error && console.log(error);
+  const searchedData = useMemo(() => payload, [payload]);
 
   useEffect(() => {
-    setSearchResult(queryData);
-    setButtonState(!queryLoading);
-  }, [queryData, queryLoading, setButtonState, setSearchResult]);
+    setButtonState(!isLoading);
+  }, [isLoading, setButtonState]);
 
   return (
     <>
       <SearchPage />
       <div className={classes.contentRoot}>
-        {queryLoading ? (
+        {error ? (
+          <div>{t("errors.search_error")}</div>
+        ) : loading ? (
           <CircularProgress color="primary" />
-        ) : !queryLoading && !searchResult.length ? (
+        ) : !loading && !searchedData.length ? (
           <div>{t("without_result")}</div>
         ) : (
           <>
             <div className={classes.contentTabs}>
-              {searchResult.map((item) => {
+              {searchedData.map((item) => {
                 const { id, title } = item;
 
                 return (
@@ -98,7 +93,7 @@ function ContentPage({
               })}
             </div>
             <div className={classes.contentText}>
-              {searchResult.map((item) => {
+              {searchedData.map((item) => {
                 if (item.id === activeTab) {
                   return (
                     <div key={item.id}>

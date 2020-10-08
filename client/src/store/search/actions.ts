@@ -1,3 +1,4 @@
+import { getData } from "../../services/fetchPosts";
 import {
   ActiveTabAction,
   ButtonStateAction,
@@ -31,8 +32,24 @@ export const setSearchValueAction = (
 });
 
 export const setSearchResultAction = (
-  resultData: DataObj[],
+  isLoading: boolean,
+  payload: DataObj[],
+  isError?: string | object,
 ): SearchResultAction => ({
   type: SearchActions.SEARCH_RESULT,
-  searchResult: resultData,
+  isLoading,
+  payload,
+  isError,
 });
+
+export const getSearchResultThunk = (title: string) => async (
+  dispatch: any,
+) => {
+  dispatch(setSearchResultAction(true, []));
+  try {
+    const data = await getData(title);
+    dispatch(setSearchResultAction(false, data.data));
+  } catch (e) {
+    dispatch(setSearchResultAction(false, [], e));
+  }
+};

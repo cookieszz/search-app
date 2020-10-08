@@ -5,7 +5,11 @@ const initialSearchState: SearchState = {
   inputValue: "",
   activeTab: "",
   searchValue: "",
-  searchResult: [],
+  searchResult: {
+    isLoading: false,
+    isError: undefined,
+    payload: [],
+  },
 };
 
 const {
@@ -44,7 +48,11 @@ export function search(
     case SEARCH_RESULT:
       return {
         ...state,
-        searchResult: action.searchResult,
+        searchResult: {
+          isLoading: action.isLoading,
+          isError: action.isError,
+          payload: action.payload,
+        },
       };
     default:
       return state;
