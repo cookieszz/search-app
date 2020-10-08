@@ -20,7 +20,6 @@ import { useContentPageStyles } from "./ContentPage.styles";
 const mapStateToProps = (state: rootState) => ({
   activeTab: state.search.activeTab,
   searchResult: state.search.searchResult,
-  searchValue: state.search.searchValue,
 });
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -39,7 +38,6 @@ type ContentPageProps = {
     isError?: string | object;
     payload: DataObj[];
   };
-  searchValue: string;
   setActiveTab: (tab: string) => ActiveTabAction;
   setButtonState: (isBtnActive: boolean) => ButtonStateAction;
 };
@@ -47,7 +45,6 @@ type ContentPageProps = {
 function ContentPage({
   activeTab,
   searchResult,
-  searchValue,
   setActiveTab,
   setButtonState,
 }: ContentPageProps) {

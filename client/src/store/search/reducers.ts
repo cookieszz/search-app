@@ -4,7 +4,6 @@ const initialSearchState: SearchState = {
   isButtonActive: true,
   inputValue: "",
   activeTab: "",
-  searchValue: "",
   searchResult: {
     isLoading: false,
     isError: undefined,
@@ -12,13 +11,7 @@ const initialSearchState: SearchState = {
   },
 };
 
-const {
-  BUTTON_STATE,
-  INPUT_CHANGE,
-  ACTIVE_TAB,
-  SEARCH_VALUE,
-  SEARCH_RESULT,
-} = SearchActions;
+const { BUTTON_STATE, INPUT_CHANGE, ACTIVE_TAB, SEARCH_RESULT } = SearchActions;
 
 export function search(
   state = initialSearchState,
@@ -39,11 +32,6 @@ export function search(
       return {
         ...state,
         activeTab: action.activeTab,
-      };
-    case SEARCH_VALUE:
-      return {
-        ...state,
-        searchValue: action.searchValue,
       };
     case SEARCH_RESULT:
       return {

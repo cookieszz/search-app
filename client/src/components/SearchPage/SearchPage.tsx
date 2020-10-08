@@ -63,9 +63,6 @@ function SearchPage({
       case "de":
         setLanguage(Languages.de);
         break;
-      case "en":
-        setLanguage(Languages.en);
-        break;
       default:
         setLanguage(Languages.en);
         break;

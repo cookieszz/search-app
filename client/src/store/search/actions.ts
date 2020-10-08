@@ -6,7 +6,6 @@ import {
   InputChangeAction,
   SearchActions,
   SearchResultAction,
-  SearchValueAction,
 } from "./types";
 
 export const setButtonStateAction = (btnState: boolean): ButtonStateAction => ({
@@ -22,13 +21,6 @@ export const setInputChangeAction = (value: string): InputChangeAction => ({
 export const setActiveTabAction = (tab: string): ActiveTabAction => ({
   type: SearchActions.ACTIVE_TAB,
   activeTab: tab,
-});
-
-export const setSearchValueAction = (
-  searchValue: string,
-): SearchValueAction => ({
-  type: SearchActions.SEARCH_VALUE,
-  searchValue: searchValue,
 });
 
 export const setSearchResultAction = (

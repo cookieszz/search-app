@@ -2,7 +2,6 @@ export enum SearchActions {
   BUTTON_STATE = "BUTTON_STATE",
   INPUT_CHANGE = "INPUT_CHANGE",
   ACTIVE_TAB = "ACTIVE_TAB",
-  SEARCH_VALUE = "SEARCH_VALUE",
   SEARCH_RESULT = "SEARCH_RESULT",
 }
 
@@ -16,7 +15,6 @@ export type SearchState = {
   isButtonActive: boolean;
   inputValue: string;
   activeTab: string;
-  searchValue: string;
   searchResult: {
     isLoading: boolean;
     isError?: string | object;
@@ -39,11 +37,6 @@ export type ActiveTabAction = {
   activeTab: string;
 };
 
-export type SearchValueAction = {
-  type: SearchActions.SEARCH_VALUE;
-  searchValue: string;
-};
-
 export type SearchResultAction = {
   type: SearchActions.SEARCH_RESULT;
   isLoading: boolean;
@@ -55,5 +48,4 @@ export type SearchActionTypes =
   | ButtonStateAction
   | InputChangeAction
   | ActiveTabAction
-  | SearchValueAction
   | SearchResultAction;
