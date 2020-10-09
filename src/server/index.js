@@ -19,7 +19,7 @@ app.get("/api/posts/:title", (req, res) => {
     res.send(posts);
   } else {
     const filteredPosts = posts.filter((i) =>
-      i.title.toLowerCase().includes(title.toLowerCase())
+      i.title.toLowerCase().includes(title.toLowerCase()),
     );
     res.send(filteredPosts);
   }
