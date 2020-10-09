@@ -10,6 +10,8 @@ export enum Namespaces {
   Search = "search",
 }
 
+const asd = 123;
+
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)

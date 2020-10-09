@@ -30,10 +30,19 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prettier:write": "yarn prettier --write 'src/**/*.ts' 'src/**/*.tsx' 'src/**/*.json'",
+    "prettier:check": "yarn prettier --check 'src/**/*.ts' 'src/**/*.tsx' 'src/**/*.json'",
+    "lint": "npx eslint --ext .ts,.tsx,.js,.jsx ./src --max-warnings=0  --cache"
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint"
+    }
   },
   "browserslist": {
     "production": [
@@ -48,6 +57,15 @@
     ]
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "2.x",
+    "eslint": "6.x",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-plugin-import": "2.x",
+    "eslint-plugin-jsx-a11y": "6.x",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "7.x",
+    "eslint-plugin-react-hooks": "1.x",
+    "husky": "^4.3.0",
     "prettier": "2.1.2"
   }
 }
