@@ -1,4 +1,4 @@
-import { Languages } from "../../types/Languages";
+import { Languages } from "../../types/common/Languages";
 import {
   LanguagesActions,
   LanguagesActionTypes,

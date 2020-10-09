@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
-import { Languages } from "./types/Languages";
+import { Languages } from "./types/common/Languages";
 import { createBundle } from "./utils/createBundle";
 import { enTranslation } from "./locales/enTranslation";
 import { deTranslation } from "./locales/deTranslation";

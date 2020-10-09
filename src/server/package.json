@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "concurrently \"yarn run server\" \"cd ../client && yarn start\"",
+    "start": "concurrently \"yarn run server\" \"cd ../../ && yarn start\"",
     "server": "node index"
   },
   "dependencies": {

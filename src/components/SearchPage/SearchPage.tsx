@@ -15,7 +15,7 @@ import {
   setInputChangeAction,
 } from "../../store/search/actions";
 import { InputChangeAction } from "../../store/search/types";
-import { Languages } from "../../types/Languages";
+import { Languages } from "../../types/common/Languages";
 import { useSearchPageStyles } from "./SearchPage.style";
 
 const mapStateToProps = (state: rootState) => ({
