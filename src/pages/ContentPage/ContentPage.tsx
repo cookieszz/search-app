@@ -12,7 +12,7 @@ import {
   DataObj,
 } from "../../store/search/types";
 import SearchPage from "../SearchPage/SearchPage";
-import Tab from "../Tab/Tab";
+import Tab from "../../components/Tab/Tab";
 import { Namespaces } from "../../i18n";
 import { CircularProgress } from "@material-ui/core";
 import { useContentPageStyles } from "./ContentPage.styles";
