@@ -22,14 +22,12 @@ const mapStateToProps = (state: rootState) => ({
   searchResult: state.search.searchResult,
 });
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    setActiveTab: (tab: string): ActiveTabAction =>
-      dispatch(setActiveTabAction(tab)),
-    setButtonState: (isBtnActive: boolean): ButtonStateAction =>
-      dispatch(setButtonStateAction(isBtnActive)),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  setActiveTab: (tab: string): ActiveTabAction =>
+    dispatch(setActiveTabAction(tab)),
+  setButtonState: (isBtnActive: boolean): ButtonStateAction =>
+    dispatch(setButtonStateAction(isBtnActive)),
+});
 
 type ContentPageProps = {
   activeTab: string;

@@ -24,16 +24,14 @@ const mapStateToProps = (state: rootState) => ({
   language: state.languages.interfaceLanguage,
 });
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {
-    onInputChange: (input: string): InputChangeAction =>
-      dispatch(setInputChangeAction(input)),
-    fetchData: (value: string): Promise<void> =>
-      dispatch(getSearchResultThunk(value)),
-    setLanguage: (lang: Languages): InterfaceLanguageAction =>
-      dispatch(setInterfaceLanguageAction(lang)),
-  };
-};
+const mapDispatchToProps = (dispatch: any) => ({
+  onInputChange: (input: string): InputChangeAction =>
+    dispatch(setInputChangeAction(input)),
+  fetchData: (value: string): Promise<void> =>
+    dispatch(getSearchResultThunk(value)),
+  setLanguage: (lang: Languages): InterfaceLanguageAction =>
+    dispatch(setInterfaceLanguageAction(lang)),
+});
 
 type SearchPageProps = {
   inputValue: string;
