@@ -1,4 +1,4 @@
-import search from "./de/search.json";
+import search from "./search/de.json";
 
 export const deTranslation = {
   search,
