@@ -14,8 +14,7 @@ import {
 import SearchPage from "../SearchPage/SearchPage";
 import Tab from "../../components/Tab/Tab";
 import { Namespaces } from "../../i18n";
-import { CircularProgress } from "@material-ui/core";
-import { useContentPageStyles } from "./ContentPage.styles";
+import classes from "./ContentPage.module.scss";
 
 const mapStateToProps = (state: rootState) => ({
   activeTab: state.search.activeTab,
@@ -47,7 +46,6 @@ function ContentPage({
   setButtonState,
 }: ContentPageProps) {
   const { t } = useTranslation(Namespaces.Search);
-  const classes = useContentPageStyles();
 
   const { isLoading, isError, payload } = searchResult;
   const loading = useMemo(() => isLoading, [isLoading]);
@@ -66,7 +64,7 @@ function ContentPage({
         {error ? (
           <div>{t("errors.search_error")}</div>
         ) : loading ? (
-          <CircularProgress color="primary" />
+          <div>{t("loading")}</div>
         ) : !loading && !searchedData.length ? (
           <div>{t("without_result")}</div>
         ) : (

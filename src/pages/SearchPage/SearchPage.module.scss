@@ -1,0 +1,70 @@
+$base-color: #d3d3d3;
+$base-background: #ffffff;
+$base-selected-color: #b8b8b8;
+$base-font-size: 16px;
+
+.searchRoot {
+  margin: 50px 0 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.languagePickerContainer {
+  margin-bottom: 10px;
+
+  & .languagePickerDropbox {
+    padding: 5px;
+    height: 35px;
+    width: 60px;
+    font-size: $base-font-size;
+    border-radius: 10px;
+    border: 1.5px solid $base-color;
+    background-color: $base-background;
+    outline: 0;
+
+    &:active {
+      border: 1.5px solid $base-selected-color;
+    }
+  }
+}
+.searchInput {
+  width: 550px;
+  height: 48px;
+  border-radius: 15px;
+  padding: 0 10px;
+  border: 1.5px solid $base-color;
+  outline: 0;
+  font-size: $base-font-size;
+
+  &:focus {
+    border: 1.5px solid $base-selected-color;
+  }
+}
+.searchBtns {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+.submitBtn {
+  border-radius: 20px;
+  padding: 10px 25px;
+  font-size: $base-font-size;
+  outline: 0;
+  border: 1.5px solid $base-color;
+  background-color: $base-background;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $base-color;
+  }
+
+  &:active {
+    background-color: $base-selected-color;
+  }
+}
+
+@media (max-width: 576px) {
+  .searchInput {
+    width: 290px;
+  }
+}

@@ -1,11 +1,7 @@
-import { TextField } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete/Autocomplete";
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import CustomSubmitBtn from "../../elements/CustomSubmitBtn/CustomSubmitBtn";
-import CustomOutlinedInput from "../../elements/CustomTextField/CustomOutlinedInput";
 import { Namespaces } from "../../i18n";
 import { rootState } from "../../store";
 import { setInterfaceLanguageAction } from "../../store/languages/actions";
@@ -16,7 +12,7 @@ import {
 } from "../../store/search/actions";
 import { InputChangeAction } from "../../store/search/types";
 import { Languages } from "../../types/common/Languages";
-import { useSearchPageStyles } from "./SearchPage.style";
+import classes from "./SearchPage.module.scss";
 
 const mapStateToProps = (state: rootState) => ({
   inputValue: state.search.inputValue,
@@ -53,8 +49,6 @@ function SearchPage({
   const history = useHistory();
   const { t, i18n } = useTranslation(Namespaces.Search);
 
-  const classes = useSearchPageStyles();
-
   useMemo(() => {
     const storageLanguage = localStorage.getItem("i18nextLng");
     switch (storageLanguage) {
@@ -87,35 +81,38 @@ function SearchPage({
 
   return (
     <div className={classes.searchRoot}>
-      <Autocomplete
-        options={Object.values(Languages)}
-        disableClearable
-        size="small"
-        className={classes.languageInput}
-        value={language}
-        disabled={!isBtnActive}
-        onChange={(e, value) => {
-          setLanguage(value);
-          i18n.changeLanguage(value);
-        }}
-        renderInput={(params) => <TextField {...params} variant="outlined" />}
-      />
-      <form>
-        <CustomOutlinedInput
+      <div className={classes.languagePickerContainer}>
+        <select
+          className={classes.languagePickerDropbox}
+          value={language}
+          onChange={(e) => {
+            const currentLang = e.target.value as Languages;
+            setLanguage(currentLang);
+            i18n.changeLanguage(currentLang);
+          }}
+        >
+          {Object.values(Languages).map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+      </div>
+      <form onSubmit={searchBtn}>
+        <input
           className={classes.searchInput}
-          placeholder={t("search_input.input_placeholder")}
           value={inputValue}
+          placeholder={t("search_input.input_placeholder")}
           onChange={(e) => onInputChange(e.target.value)}
         />
         <div className={classes.searchBtns}>
-          <CustomSubmitBtn
+          <button
             type="submit"
-            variant="outlined"
-            onClick={searchBtn}
             disabled={!isBtnActive}
+            className={classes.submitBtn}
           >
             {t("search_input.submit")}
-          </CustomSubmitBtn>
+          </button>
         </div>
       </form>
     </div>
