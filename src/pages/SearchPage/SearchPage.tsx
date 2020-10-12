@@ -12,7 +12,8 @@ import {
 } from "../../store/search/actions";
 import { InputChangeAction } from "../../store/search/types";
 import { Languages } from "../../types/common/Languages";
-import classes from "./SearchPage.module.scss";
+import { useSearchPageStyles } from "./SearchPage.styles";
+// import classes from "./SearchPage.module.scss";
 
 const mapStateToProps = (state: rootState) => ({
   inputValue: state.search.inputValue,
@@ -48,6 +49,8 @@ function SearchPage({
 }: SearchPageProps) {
   const history = useHistory();
   const { t, i18n } = useTranslation(Namespaces.Search);
+
+  const classes = useSearchPageStyles();
 
   useMemo(() => {
     const storageLanguage = localStorage.getItem("i18nextLng");
