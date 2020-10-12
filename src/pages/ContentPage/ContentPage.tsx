@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
-import { rootState } from "../../store";
+import { RootState } from "../../store";
 import {
   setActiveTabAction,
   setButtonStateAction,
@@ -9,15 +9,14 @@ import {
 import {
   ActiveTabAction,
   ButtonStateAction,
-  DataObj,
+  PostDataObj,
 } from "../../store/search/types";
 import SearchPage from "../SearchPage/SearchPage";
 import Tab from "../../components/Tab/Tab";
 import { Namespaces } from "../../i18n";
-import { useContentPageStyles } from "./ContentPage.styles";
-// import classes from "./ContentPage.module.scss";
+import classes from "./ContentPage.module.scss";
 
-const mapStateToProps = (state: rootState) => ({
+const mapStateToProps = (state: RootState) => ({
   activeTab: state.search.activeTab,
   searchResult: state.search.searchResult,
 });
@@ -34,7 +33,7 @@ type ContentPageProps = {
   searchResult: {
     isLoading: boolean;
     isError?: string | object;
-    payload: DataObj[];
+    data: PostDataObj[];
   };
   setActiveTab: (tab: string) => ActiveTabAction;
   setButtonState: (isBtnActive: boolean) => ButtonStateAction;
@@ -47,20 +46,19 @@ function ContentPage({
   setButtonState,
 }: ContentPageProps) {
   const { t } = useTranslation(Namespaces.Search);
-  const classes = useContentPageStyles();
 
-  const { isLoading, isError, payload } = searchResult;
+  const { isLoading, isError, data } = searchResult;
   const loading = useMemo(() => isLoading, [isLoading]);
   const error = useMemo(() => isError, [isError]);
   error && console.log(error);
-  const searchedData = useMemo(() => payload, [payload]);
+  const searchedData = useMemo(() => data, [data]);
 
   useEffect(() => {
     setButtonState(!isLoading);
   }, [isLoading, setButtonState]);
 
   return (
-    <>
+    <div className={classes.appRoot}>
       <SearchPage />
       <div className={classes.contentRoot}>
         {error ? (
@@ -103,7 +101,7 @@ function ContentPage({
           </>
         )}
       </div>
-    </>
+    </div>
   );
 }
 

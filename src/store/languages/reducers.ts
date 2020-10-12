@@ -9,17 +9,17 @@ const initialLanguagesState: LanguagesState = {
   interfaceLanguage: Languages.en,
 };
 
-const { INTERFACE_LANGUAGE } = LanguagesActions;
+const { CHANGE_INTERFACE_LANGUAGE } = LanguagesActions;
 
 export function languages(
   state = initialLanguagesState,
   action: LanguagesActionTypes,
 ): LanguagesState {
   switch (action.type) {
-    case INTERFACE_LANGUAGE:
+    case CHANGE_INTERFACE_LANGUAGE:
       return {
         ...state,
-        interfaceLanguage: action.interfaceLanguage,
+        interfaceLanguage: action.payload.interfaceLanguage,
       };
     default:
       return state;

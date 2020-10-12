@@ -1,37 +1,37 @@
-import { getData } from "../../services/fetchPosts";
+import { getData } from "../../services/SearchApiService";
 import {
   ActiveTabAction,
   ButtonStateAction,
-  DataObj,
-  InputChangeAction,
+  PostDataObj,
+  ChangeSearchInputAction,
   SearchActions,
   SearchResultAction,
 } from "./types";
 
 export const setButtonStateAction = (btnState: boolean): ButtonStateAction => ({
-  type: SearchActions.BUTTON_STATE,
-  isButtonActive: btnState,
+  type: SearchActions.SET_BUTTON_STATE,
+  payload: { isButtonActive: btnState },
 });
 
-export const setInputChangeAction = (value: string): InputChangeAction => ({
-  type: SearchActions.INPUT_CHANGE,
-  inputValue: value,
+export const changeSearchInputAction = (
+  value: string,
+): ChangeSearchInputAction => ({
+  type: SearchActions.CHANGE_SEARCH_INPUT,
+  payload: { searchInputValue: value },
 });
 
 export const setActiveTabAction = (tab: string): ActiveTabAction => ({
-  type: SearchActions.ACTIVE_TAB,
-  activeTab: tab,
+  type: SearchActions.SET_ACTIVE_TAB,
+  payload: { activeTab: tab },
 });
 
 export const setSearchResultAction = (
   isLoading: boolean,
-  payload: DataObj[],
+  data: PostDataObj[],
   isError?: string | object,
 ): SearchResultAction => ({
-  type: SearchActions.SEARCH_RESULT,
-  isLoading,
-  payload,
-  isError,
+  type: SearchActions.SET_SEARCH_RESULT,
+  payload: { isLoading, data, isError },
 });
 
 export const getSearchResultThunk = (title: string) => async (

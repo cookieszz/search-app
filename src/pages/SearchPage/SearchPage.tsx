@@ -3,67 +3,64 @@ import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { Namespaces } from "../../i18n";
-import { rootState } from "../../store";
-import { setInterfaceLanguageAction } from "../../store/languages/actions";
-import { InterfaceLanguageAction } from "../../store/languages/types";
+import { RootState } from "../../store";
+import { changeInterfaceLanguageAction } from "../../store/languages/actions";
+import { ChangeInterfaceLanguageAction } from "../../store/languages/types";
 import {
+  changeSearchInputAction,
   getSearchResultThunk,
-  setInputChangeAction,
 } from "../../store/search/actions";
-import { InputChangeAction } from "../../store/search/types";
+import { ChangeSearchInputAction } from "../../store/search/types";
 import { Languages } from "../../types/common/Languages";
-import { useSearchPageStyles } from "./SearchPage.styles";
-// import classes from "./SearchPage.module.scss";
+import classes from "./SearchPage.module.scss";
 
-const mapStateToProps = (state: rootState) => ({
-  inputValue: state.search.inputValue,
+const mapStateToProps = (state: RootState) => ({
+  searchInputValue: state.search.searchInputValue,
   isBtnActive: state.search.isButtonActive,
   language: state.languages.interfaceLanguage,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
-  onInputChange: (input: string): InputChangeAction =>
-    dispatch(setInputChangeAction(input)),
-  fetchData: (value: string): Promise<void> =>
+  onSearchInputChange: (input: string): ChangeSearchInputAction =>
+    dispatch(changeSearchInputAction(input)),
+  fetchPosts: (value: string): Promise<void> =>
     dispatch(getSearchResultThunk(value)),
-  setLanguage: (lang: Languages): InterfaceLanguageAction =>
-    dispatch(setInterfaceLanguageAction(lang)),
+  changeLanguage: (lang: Languages): ChangeInterfaceLanguageAction =>
+    dispatch(changeInterfaceLanguageAction(lang)),
 });
 
 type SearchPageProps = {
-  inputValue: string;
+  searchInputValue: string;
   isBtnActive: boolean;
   language: Languages;
-  onInputChange: (input: string) => InputChangeAction;
-  setLanguage: (lang: Languages) => InterfaceLanguageAction;
-  fetchData: (value: string) => Promise<void>;
+  onSearchInputChange: (input: string) => ChangeSearchInputAction;
+  changeLanguage: (lang: Languages) => ChangeInterfaceLanguageAction;
+  fetchPosts: (value: string) => Promise<void>;
 };
 
 function SearchPage({
-  inputValue,
+  searchInputValue,
   isBtnActive,
   language,
-  onInputChange,
-  setLanguage,
-  fetchData,
+  onSearchInputChange,
+  changeLanguage,
+  fetchPosts,
 }: SearchPageProps) {
   const history = useHistory();
   const { t, i18n } = useTranslation(Namespaces.Search);
-
-  const classes = useSearchPageStyles();
 
   useMemo(() => {
     const storageLanguage = localStorage.getItem("i18nextLng");
     switch (storageLanguage) {
       case "de":
-        setLanguage(Languages.de);
+        changeLanguage(Languages.de);
         break;
       default:
-        setLanguage(Languages.en);
+        changeLanguage(Languages.en);
         break;
     }
     return storageLanguage;
-  }, [setLanguage]);
+  }, [changeLanguage]);
 
   const path = useMemo(() => history.location.search.slice(7), [
     history.location.search,
@@ -71,53 +68,55 @@ function SearchPage({
 
   useEffect(() => {
     if (path) {
-      onInputChange(path);
-      fetchData(path);
+      onSearchInputChange(path);
+      fetchPosts(path);
     }
-  }, [history.location.search, fetchData, onInputChange, path]);
+  }, [history.location.search, path, onSearchInputChange, fetchPosts]);
 
   const searchBtn = (e: React.FormEvent) => {
     e.preventDefault();
-    path !== inputValue && fetchData(inputValue);
-    history.push(`/search?query=${inputValue}`);
+    path !== searchInputValue && fetchPosts(searchInputValue);
+    history.push(`/search?query=${searchInputValue}`);
   };
 
   return (
     <div className={classes.searchRoot}>
-      <div className={classes.languagePickerContainer}>
-        <select
-          className={classes.languagePickerDropbox}
-          value={language}
-          onChange={(e) => {
-            const currentLang = e.target.value as Languages;
-            setLanguage(currentLang);
-            i18n.changeLanguage(currentLang);
-          }}
-        >
-          {Object.values(Languages).map((item) => (
-            <option key={item} value={item}>
-              {item}
-            </option>
-          ))}
-        </select>
-      </div>
-      <form onSubmit={searchBtn}>
-        <input
-          className={classes.searchInput}
-          value={inputValue}
-          placeholder={t("search_input.input_placeholder")}
-          onChange={(e) => onInputChange(e.target.value)}
-        />
-        <div className={classes.searchBtns}>
-          <button
-            type="submit"
-            disabled={!isBtnActive}
-            className={classes.submitBtn}
+      <div className={classes.searchContent}>
+        <div className={classes.languagePickerContainer}>
+          <select
+            className={classes.languagePickerDropbox}
+            value={language}
+            onChange={(e) => {
+              const currentLang = e.target.value as Languages;
+              changeLanguage(currentLang);
+              i18n.changeLanguage(currentLang);
+            }}
           >
-            {t("search_input.submit")}
-          </button>
+            {Object.values(Languages).map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
         </div>
-      </form>
+        <form onSubmit={searchBtn}>
+          <input
+            className={classes.searchInput}
+            value={searchInputValue}
+            placeholder={t("search_input.input_placeholder")}
+            onChange={(e) => onSearchInputChange(e.target.value)}
+          />
+          <div className={classes.searchBtns}>
+            <button
+              type="submit"
+              disabled={!isBtnActive}
+              className={classes.submitBtn}
+            >
+              {t("search_input.submit")}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

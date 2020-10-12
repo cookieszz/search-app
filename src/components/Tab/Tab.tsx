@@ -1,6 +1,5 @@
 import React from "react";
-import { useTabStyles } from "./Tab.styles";
-// import classes from "./Tab.module.scss";
+import classes from "./Tab.module.scss";
 
 type TabProps = {
   label: string;
@@ -10,8 +9,6 @@ type TabProps = {
 };
 
 function Tab({ label, activeTab, id, onClick }: TabProps) {
-  const classes = useTabStyles();
-
   let style = `${classes.tabRoot}`;
 
   if (id === activeTab) {

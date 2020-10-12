@@ -1,16 +1,16 @@
 import { Languages } from "../../types/common/Languages";
 
 export enum LanguagesActions {
-  INTERFACE_LANGUAGE = "INTERFACE_LANGUAGE",
+  CHANGE_INTERFACE_LANGUAGE = "CHANGE_INTERFACE_LANGUAGE",
 }
 
 export type LanguagesState = {
   interfaceLanguage: Languages;
 };
 
-export type InterfaceLanguageAction = {
-  type: LanguagesActions.INTERFACE_LANGUAGE;
-  interfaceLanguage: Languages;
+export type ChangeInterfaceLanguageAction = {
+  type: LanguagesActions.CHANGE_INTERFACE_LANGUAGE;
+  payload: { interfaceLanguage: Languages };
 };
 
-export type LanguagesActionTypes = InterfaceLanguageAction;
+export type LanguagesActionTypes = ChangeInterfaceLanguageAction;

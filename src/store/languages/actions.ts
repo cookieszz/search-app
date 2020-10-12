@@ -1,9 +1,9 @@
 import { Languages } from "../../types/common/Languages";
-import { InterfaceLanguageAction, LanguagesActions } from "./types";
+import { ChangeInterfaceLanguageAction, LanguagesActions } from "./types";
 
-export const setInterfaceLanguageAction = (
+export const changeInterfaceLanguageAction = (
   lang: Languages,
-): InterfaceLanguageAction => ({
-  type: LanguagesActions.INTERFACE_LANGUAGE,
-  interfaceLanguage: lang,
+): ChangeInterfaceLanguageAction => ({
+  type: LanguagesActions.CHANGE_INTERFACE_LANGUAGE,
+  payload: { interfaceLanguage: lang },
 });

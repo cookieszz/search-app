@@ -2,44 +2,49 @@ import { SearchActions, SearchActionTypes, SearchState } from "./types";
 
 const initialSearchState: SearchState = {
   isButtonActive: true,
-  inputValue: "",
+  searchInputValue: "",
   activeTab: "",
   searchResult: {
     isLoading: false,
     isError: undefined,
-    payload: [],
+    data: [],
   },
 };
 
-const { BUTTON_STATE, INPUT_CHANGE, ACTIVE_TAB, SEARCH_RESULT } = SearchActions;
+const {
+  SET_BUTTON_STATE,
+  CHANGE_SEARCH_INPUT,
+  SET_ACTIVE_TAB,
+  SET_SEARCH_RESULT,
+} = SearchActions;
 
 export function search(
   state = initialSearchState,
   action: SearchActionTypes,
 ): SearchState {
   switch (action.type) {
-    case BUTTON_STATE:
+    case SET_BUTTON_STATE:
       return {
         ...state,
-        isButtonActive: action.isButtonActive,
+        isButtonActive: action.payload.isButtonActive,
       };
-    case INPUT_CHANGE:
+    case CHANGE_SEARCH_INPUT:
       return {
         ...state,
-        inputValue: action.inputValue,
+        searchInputValue: action.payload.searchInputValue,
       };
-    case ACTIVE_TAB:
+    case SET_ACTIVE_TAB:
       return {
         ...state,
-        activeTab: action.activeTab,
+        activeTab: action.payload.activeTab,
       };
-    case SEARCH_RESULT:
+    case SET_SEARCH_RESULT:
       return {
         ...state,
         searchResult: {
-          isLoading: action.isLoading,
-          isError: action.isError,
-          payload: action.payload,
+          isLoading: action.payload.isLoading,
+          isError: action.payload.isError,
+          data: action.payload.data,
         },
       };
     default:

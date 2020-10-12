@@ -1,11 +1,11 @@
 export enum SearchActions {
-  BUTTON_STATE = "BUTTON_STATE",
-  INPUT_CHANGE = "INPUT_CHANGE",
-  ACTIVE_TAB = "ACTIVE_TAB",
-  SEARCH_RESULT = "SEARCH_RESULT",
+  SET_BUTTON_STATE = "SET_BUTTON_STATE",
+  CHANGE_SEARCH_INPUT = "CHANGE_SEARCH_INPUT",
+  SET_ACTIVE_TAB = "SET_ACTIVE_TAB",
+  SET_SEARCH_RESULT = "SET_SEARCH_RESULT",
 }
 
-export type DataObj = {
+export type PostDataObj = {
   id: string;
   title: string;
   text: string;
@@ -13,39 +13,41 @@ export type DataObj = {
 
 export type SearchState = {
   isButtonActive: boolean;
-  inputValue: string;
+  searchInputValue: string;
   activeTab: string;
   searchResult: {
     isLoading: boolean;
     isError?: string | object;
-    payload: DataObj[];
+    data: PostDataObj[];
   };
 };
 
 export type ButtonStateAction = {
-  type: SearchActions.BUTTON_STATE;
-  isButtonActive: boolean;
+  type: SearchActions.SET_BUTTON_STATE;
+  payload: { isButtonActive: boolean };
 };
 
-export type InputChangeAction = {
-  type: SearchActions.INPUT_CHANGE;
-  inputValue: string;
+export type ChangeSearchInputAction = {
+  type: SearchActions.CHANGE_SEARCH_INPUT;
+  payload: { searchInputValue: string };
 };
 
 export type ActiveTabAction = {
-  type: SearchActions.ACTIVE_TAB;
-  activeTab: string;
+  type: SearchActions.SET_ACTIVE_TAB;
+  payload: { activeTab: string };
 };
 
 export type SearchResultAction = {
-  type: SearchActions.SEARCH_RESULT;
-  isLoading: boolean;
-  isError?: string | object;
-  payload: DataObj[];
+  type: SearchActions.SET_SEARCH_RESULT;
+  payload: {
+    isLoading: boolean;
+    isError?: string | object;
+    data: PostDataObj[];
+  };
 };
 
 export type SearchActionTypes =
   | ButtonStateAction
-  | InputChangeAction
+  | ChangeSearchInputAction
   | ActiveTabAction
   | SearchResultAction;
