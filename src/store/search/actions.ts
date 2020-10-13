@@ -50,7 +50,7 @@ export const getSearchResultThunk = (title: string) => async (
 ) => {
   dispatch(fetchSearchInpuRequestAction());
   try {
-    const data = await SearchApiService.getPosts(title);
+    const data = await SearchApiService.getPosts({ title });
     dispatch(fetchSearchInpuSuccessAction(data.data));
   } catch (e) {
     dispatch(fetchSearchInpuFailureAction(e));

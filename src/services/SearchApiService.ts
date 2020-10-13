@@ -7,7 +7,7 @@ class SearchApiService {
     this.api = Axios.create({ baseURL: "http://localhost:9000/api" });
   }
 
-  getPosts = (title: string) => this.api.get(`/posts/${title}`);
+  getPosts = ({ title }: { title: string }) => this.api.get(`/posts/${title}`);
 }
 
 export default new SearchApiService();
