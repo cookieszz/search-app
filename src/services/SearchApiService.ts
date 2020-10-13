@@ -1,4 +1,13 @@
-import Axios from "axios";
+import Axios, { AxiosInstance } from "axios";
 
-export const getData = async (title: string) =>
-  Axios.get(`http://localhost:9000/api/posts/${title}`);
+class SearchApiService {
+  private api: AxiosInstance;
+
+  constructor() {
+    this.api = Axios.create({ baseURL: "http://localhost:9000/api" });
+  }
+
+  getPosts = (title: string) => this.api.get(`/posts/${title}`);
+}
+
+export default new SearchApiService();

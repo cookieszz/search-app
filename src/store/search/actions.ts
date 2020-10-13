@@ -1,4 +1,4 @@
-import { getData } from "services/SearchApiService";
+import SearchApiService from "services/SearchApiService";
 import {
   ActiveTabAction,
   ButtonStateAction,
@@ -50,7 +50,7 @@ export const getSearchResultThunk = (title: string) => async (
 ) => {
   dispatch(fetchSearchInpuRequestAction());
   try {
-    const data = await getData(title);
+    const data = await SearchApiService.getPosts(title);
     dispatch(fetchSearchInpuSuccessAction(data.data));
   } catch (e) {
     dispatch(fetchSearchInpuFailureAction(e));

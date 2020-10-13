@@ -58,10 +58,10 @@ function ContentPage({
     <div className={classes.appRoot}>
       <SearchPage />
       <div className={classes.contentRoot}>
-        {error || !searchedData ? (
-          <div>{t("errors.search_error")}</div>
-        ) : loading ? (
+        {loading ? (
           <div>{t("loading")}</div>
+        ) : error || !searchedData ? (
+          <div>{t("errors.search_error")}</div>
         ) : !loading && !searchedData.length ? (
           <div>{t("without_result")}</div>
         ) : (
