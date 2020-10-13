@@ -1,17 +1,17 @@
+import { Namespaces } from "i18n";
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Namespaces } from "../../i18n";
-import { RootState } from "../../store";
-import { changeInterfaceLanguageAction } from "../../store/languages/actions";
-import { ChangeInterfaceLanguageAction } from "../../store/languages/types";
+import { RootState } from "store";
+import { changeInterfaceLanguageAction } from "store/languages/actions";
+import { ChangeInterfaceLanguageAction } from "store/languages/types";
 import {
   changeSearchInputAction,
   getSearchResultThunk,
-} from "../../store/search/actions";
-import { ChangeSearchInputAction } from "../../store/search/types";
-import { Languages } from "../../types/common/Languages";
+} from "store/search/actions";
+import { ChangeSearchInputAction } from "store/search/types";
+import { Languages } from "types/common/Languages";
 import classes from "./SearchPage.module.scss";
 
 const mapStateToProps = (state: RootState) => ({
@@ -75,8 +75,14 @@ function SearchPage({
 
   const searchBtn = (e: React.FormEvent) => {
     e.preventDefault();
-    path !== searchInputValue && fetchPosts(searchInputValue);
-    history.push(`/search?query=${searchInputValue}`);
+    if (!path) {
+      fetchPosts(searchInputValue);
+      history.push(`/search?query=${searchInputValue}`);
+    }
+    if (path && path !== searchInputValue) {
+      fetchPosts(searchInputValue);
+      history.push(`/search?query=${searchInputValue}`);
+    }
   };
 
   return (

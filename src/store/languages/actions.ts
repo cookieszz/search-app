@@ -1,4 +1,4 @@
-import { Languages } from "../../types/common/Languages";
+import { Languages } from "types/common/Languages";
 import { ChangeInterfaceLanguageAction, LanguagesActions } from "./types";
 
 export const changeInterfaceLanguageAction = (

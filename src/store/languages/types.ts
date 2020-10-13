@@ -1,4 +1,4 @@
-import { Languages } from "../../types/common/Languages";
+import { Languages } from "types/common/Languages";
 
 export enum LanguagesActions {
   CHANGE_INTERFACE_LANGUAGE = "CHANGE_INTERFACE_LANGUAGE",

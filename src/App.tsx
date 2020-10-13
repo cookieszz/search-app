@@ -1,9 +1,9 @@
 import React from "react";
 import { Redirect, Route, Router, Switch } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import SearchPage from "./pages/SearchPage/SearchPage";
-import { BasicRoutes } from "./constants/basicRoutes";
-import ContentPage from "./pages/ContentPage/ContentPage";
+import { BasicRoutes } from "constants/basicRoutes";
+import ContentPage from "pages/ContentPage/ContentPage";
+import SearchPage from "pages/SearchPage/SearchPage";
 
 const appHistory = createBrowserHistory();
 

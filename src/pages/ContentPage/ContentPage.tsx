@@ -1,19 +1,16 @@
+import Tab from "components/Tab/Tab";
+import { Namespaces } from "i18n";
+import SearchPage from "pages/SearchPage/SearchPage";
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
-import { RootState } from "../../store";
-import {
-  setActiveTabAction,
-  setButtonStateAction,
-} from "../../store/search/actions";
+import { RootState } from "store";
+import { setActiveTabAction, setButtonStateAction } from "store/search/actions";
 import {
   ActiveTabAction,
   ButtonStateAction,
   PostDataObj,
-} from "../../store/search/types";
-import SearchPage from "../SearchPage/SearchPage";
-import Tab from "../../components/Tab/Tab";
-import { Namespaces } from "../../i18n";
+} from "store/search/types";
 import classes from "./ContentPage.module.scss";
 
 const mapStateToProps = (state: RootState) => ({
@@ -31,9 +28,9 @@ const mapDispatchToProps = (dispatch: any) => ({
 type ContentPageProps = {
   activeTab: string;
   searchResult: {
-    isLoading: boolean;
-    isError?: string | object;
-    data: PostDataObj[];
+    isFetching: boolean;
+    isError: object | null;
+    data: PostDataObj[] | null;
   };
   setActiveTab: (tab: string) => ActiveTabAction;
   setButtonState: (isBtnActive: boolean) => ButtonStateAction;
@@ -47,21 +44,21 @@ function ContentPage({
 }: ContentPageProps) {
   const { t } = useTranslation(Namespaces.Search);
 
-  const { isLoading, isError, data } = searchResult;
-  const loading = useMemo(() => isLoading, [isLoading]);
+  const { isFetching, isError, data } = searchResult;
+  const loading = useMemo(() => isFetching, [isFetching]);
   const error = useMemo(() => isError, [isError]);
   error && console.log(error);
   const searchedData = useMemo(() => data, [data]);
 
   useEffect(() => {
-    setButtonState(!isLoading);
-  }, [isLoading, setButtonState]);
+    setButtonState(!isFetching);
+  }, [isFetching, setButtonState]);
 
   return (
     <div className={classes.appRoot}>
       <SearchPage />
       <div className={classes.contentRoot}>
-        {error ? (
+        {error || !searchedData ? (
           <div>{t("errors.search_error")}</div>
         ) : loading ? (
           <div>{t("loading")}</div>

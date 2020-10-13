@@ -2,7 +2,9 @@ export enum SearchActions {
   SET_BUTTON_STATE = "SET_BUTTON_STATE",
   CHANGE_SEARCH_INPUT = "CHANGE_SEARCH_INPUT",
   SET_ACTIVE_TAB = "SET_ACTIVE_TAB",
-  SET_SEARCH_RESULT = "SET_SEARCH_RESULT",
+  FETCH_SEARCH_INPUT_REQUEST = "FETCH_SEARCH_INPUT_REQUEST",
+  FETCH_SEARCH_INPUT_SUCCESS = "FETCH_SEARCH_INPUT_SUCCESS",
+  FETCH_SEARCH_INPUT_FAILURE = "FETCH_SEARCH_INPUT_FAILURE",
 }
 
 export type PostDataObj = {
@@ -16,9 +18,9 @@ export type SearchState = {
   searchInputValue: string;
   activeTab: string;
   searchResult: {
-    isLoading: boolean;
-    isError?: string | object;
-    data: PostDataObj[];
+    isFetching: boolean;
+    isError: object | null;
+    data: PostDataObj[] | null;
   };
 };
 
@@ -37,17 +39,24 @@ export type ActiveTabAction = {
   payload: { activeTab: string };
 };
 
-export type SearchResultAction = {
-  type: SearchActions.SET_SEARCH_RESULT;
-  payload: {
-    isLoading: boolean;
-    isError?: string | object;
-    data: PostDataObj[];
-  };
+export type FetchSearchInpuRequestAction = {
+  type: SearchActions.FETCH_SEARCH_INPUT_REQUEST;
+};
+
+export type FetchSearchInpuSuccessAction = {
+  type: SearchActions.FETCH_SEARCH_INPUT_SUCCESS;
+  payload: { data: PostDataObj[] };
+};
+
+export type FetchSearchInpuFailureAction = {
+  type: SearchActions.FETCH_SEARCH_INPUT_FAILURE;
+  payload: { error: object };
 };
 
 export type SearchActionTypes =
   | ButtonStateAction
   | ChangeSearchInputAction
   | ActiveTabAction
-  | SearchResultAction;
+  | FetchSearchInpuRequestAction
+  | FetchSearchInpuSuccessAction
+  | FetchSearchInpuFailureAction;

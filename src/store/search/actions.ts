@@ -1,11 +1,13 @@
-import { getData } from "../../services/SearchApiService";
+import { getData } from "services/SearchApiService";
 import {
   ActiveTabAction,
   ButtonStateAction,
   PostDataObj,
   ChangeSearchInputAction,
   SearchActions,
-  SearchResultAction,
+  FetchSearchInpuRequestAction,
+  FetchSearchInpuSuccessAction,
+  FetchSearchInpuFailureAction,
 } from "./types";
 
 export const setButtonStateAction = (btnState: boolean): ButtonStateAction => ({
@@ -25,23 +27,32 @@ export const setActiveTabAction = (tab: string): ActiveTabAction => ({
   payload: { activeTab: tab },
 });
 
-export const setSearchResultAction = (
-  isLoading: boolean,
+const fetchSearchInpuRequestAction = (): FetchSearchInpuRequestAction => ({
+  type: SearchActions.FETCH_SEARCH_INPUT_REQUEST,
+});
+
+const fetchSearchInpuSuccessAction = (
   data: PostDataObj[],
-  isError?: string | object,
-): SearchResultAction => ({
-  type: SearchActions.SET_SEARCH_RESULT,
-  payload: { isLoading, data, isError },
+): FetchSearchInpuSuccessAction => ({
+  type: SearchActions.FETCH_SEARCH_INPUT_SUCCESS,
+  payload: { data },
+});
+
+const fetchSearchInpuFailureAction = (
+  error: object,
+): FetchSearchInpuFailureAction => ({
+  type: SearchActions.FETCH_SEARCH_INPUT_FAILURE,
+  payload: { error },
 });
 
 export const getSearchResultThunk = (title: string) => async (
   dispatch: any,
 ) => {
-  dispatch(setSearchResultAction(true, []));
+  dispatch(fetchSearchInpuRequestAction());
   try {
     const data = await getData(title);
-    dispatch(setSearchResultAction(false, data.data));
+    dispatch(fetchSearchInpuSuccessAction(data.data));
   } catch (e) {
-    dispatch(setSearchResultAction(false, [], e));
+    dispatch(fetchSearchInpuFailureAction(e));
   }
 };

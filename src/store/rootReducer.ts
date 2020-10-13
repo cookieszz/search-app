@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import { languages } from "./languages/reducers";
-import { search } from "./search/reducers";
+import { languages } from "store/languages/reducers";
+import { search } from "store/search/reducers";
 
 const rootReducer = combineReducers({ search, languages });
 

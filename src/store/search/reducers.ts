@@ -5,9 +5,9 @@ const initialSearchState: SearchState = {
   searchInputValue: "",
   activeTab: "",
   searchResult: {
-    isLoading: false,
-    isError: undefined,
-    data: [],
+    isFetching: false,
+    isError: null,
+    data: null,
   },
 };
 
@@ -15,7 +15,9 @@ const {
   SET_BUTTON_STATE,
   CHANGE_SEARCH_INPUT,
   SET_ACTIVE_TAB,
-  SET_SEARCH_RESULT,
+  FETCH_SEARCH_INPUT_REQUEST,
+  FETCH_SEARCH_INPUT_SUCCESS,
+  FETCH_SEARCH_INPUT_FAILURE,
 } = SearchActions;
 
 export function search(
@@ -38,13 +40,30 @@ export function search(
         ...state,
         activeTab: action.payload.activeTab,
       };
-    case SET_SEARCH_RESULT:
+    case FETCH_SEARCH_INPUT_REQUEST:
       return {
         ...state,
         searchResult: {
-          isLoading: action.payload.isLoading,
-          isError: action.payload.isError,
+          ...initialSearchState.searchResult,
+          isFetching: true,
+        },
+      };
+    case FETCH_SEARCH_INPUT_SUCCESS:
+      return {
+        ...state,
+        searchResult: {
+          isFetching: false,
+          isError: null,
           data: action.payload.data,
+        },
+      };
+    case FETCH_SEARCH_INPUT_FAILURE:
+      return {
+        ...state,
+        searchResult: {
+          isFetching: false,
+          isError: action.payload.error,
+          data: null,
         },
       };
     default:
