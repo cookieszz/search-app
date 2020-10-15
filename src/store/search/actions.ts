@@ -1,5 +1,6 @@
-import { Dispatch } from "redux";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import SearchApiService from "services/SearchApiService";
+import { RootState } from "store";
 import {
   ActiveTabAction,
   ButtonStateAction,
@@ -47,8 +48,10 @@ const fetchSearchInputFailureAction = (
   payload: { error },
 });
 
-export const getSearchResultThunk = (title: string) => async (
-  dispatch: Dispatch<SearchActionTypes>,
+export const getSearchResultThunk = (
+  title: string,
+): ThunkAction<Promise<void>, RootState, unknown, SearchActionTypes> => async (
+  dispatch: ThunkDispatch<RootState, unknown, SearchActionTypes>,
 ) => {
   dispatch(fetchSearchInputRequestAction());
   try {
