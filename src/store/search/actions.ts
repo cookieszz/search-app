@@ -1,3 +1,4 @@
+import { Dispatch } from "redux";
 import SearchApiService from "services/SearchApiService";
 import {
   ActiveTabAction,
@@ -5,9 +6,10 @@ import {
   PostDataObj,
   ChangeSearchInputAction,
   SearchActions,
-  FetchSearchInpuRequestAction,
-  FetchSearchInpuSuccessAction,
-  FetchSearchInpuFailureAction,
+  FetchSearchInputRequestAction,
+  FetchSearchInputSuccessAction,
+  FetchSearchInputFailureAction,
+  SearchActionTypes,
 } from "./types";
 
 export const setButtonStateAction = (btnState: boolean): ButtonStateAction => ({
@@ -27,32 +29,32 @@ export const setActiveTabAction = (tab: string): ActiveTabAction => ({
   payload: { activeTab: tab },
 });
 
-const fetchSearchInpuRequestAction = (): FetchSearchInpuRequestAction => ({
+const fetchSearchInputRequestAction = (): FetchSearchInputRequestAction => ({
   type: SearchActions.FETCH_SEARCH_INPUT_REQUEST,
 });
 
-const fetchSearchInpuSuccessAction = (
+const fetchSearchInputSuccessAction = (
   data: PostDataObj[],
-): FetchSearchInpuSuccessAction => ({
+): FetchSearchInputSuccessAction => ({
   type: SearchActions.FETCH_SEARCH_INPUT_SUCCESS,
   payload: { data },
 });
 
-const fetchSearchInpuFailureAction = (
+const fetchSearchInputFailureAction = (
   error: object,
-): FetchSearchInpuFailureAction => ({
+): FetchSearchInputFailureAction => ({
   type: SearchActions.FETCH_SEARCH_INPUT_FAILURE,
   payload: { error },
 });
 
 export const getSearchResultThunk = (title: string) => async (
-  dispatch: any,
+  dispatch: Dispatch<SearchActionTypes>,
 ) => {
-  dispatch(fetchSearchInpuRequestAction());
+  dispatch(fetchSearchInputRequestAction());
   try {
     const data = await SearchApiService.getPosts({ title });
-    dispatch(fetchSearchInpuSuccessAction(data.data));
+    dispatch(fetchSearchInputSuccessAction(data.data));
   } catch (e) {
-    dispatch(fetchSearchInpuFailureAction(e));
+    dispatch(fetchSearchInputFailureAction(e));
   }
 };

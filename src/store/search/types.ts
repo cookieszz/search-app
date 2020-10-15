@@ -39,16 +39,16 @@ export type ActiveTabAction = {
   payload: { activeTab: string };
 };
 
-export type FetchSearchInpuRequestAction = {
+export type FetchSearchInputRequestAction = {
   type: SearchActions.FETCH_SEARCH_INPUT_REQUEST;
 };
 
-export type FetchSearchInpuSuccessAction = {
+export type FetchSearchInputSuccessAction = {
   type: SearchActions.FETCH_SEARCH_INPUT_SUCCESS;
   payload: { data: PostDataObj[] };
 };
 
-export type FetchSearchInpuFailureAction = {
+export type FetchSearchInputFailureAction = {
   type: SearchActions.FETCH_SEARCH_INPUT_FAILURE;
   payload: { error: object };
 };
@@ -57,6 +57,6 @@ export type SearchActionTypes =
   | ButtonStateAction
   | ChangeSearchInputAction
   | ActiveTabAction
-  | FetchSearchInpuRequestAction
-  | FetchSearchInpuSuccessAction
-  | FetchSearchInpuFailureAction;
+  | FetchSearchInputRequestAction
+  | FetchSearchInputSuccessAction
+  | FetchSearchInputFailureAction;

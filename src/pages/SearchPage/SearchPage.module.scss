@@ -14,24 +14,6 @@ $base-font-size: 16px;
   flex-direction: column;
   align-items: flex-end;
 }
-.languagePickerContainer {
-  margin-bottom: 10px;
-
-  & .languagePickerDropbox {
-    padding: 5px;
-    height: 35px;
-    width: 60px;
-    font-size: $base-font-size;
-    border-radius: 10px;
-    border: 1.5px solid $base-color;
-    background-color: $base-background;
-    outline: 0;
-
-    &:active {
-      border: 1.5px solid $base-selected-color;
-    }
-  }
-}
 .searchInput {
   width: 550px;
   height: 48px;

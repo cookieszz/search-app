@@ -1,23 +1,20 @@
+import LanguagePicker from "components/LanguagePicker/LanguagePicker";
 import { Namespaces } from "i18n";
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { RootState } from "store";
-import { changeInterfaceLanguageAction } from "store/languages/actions";
-import { ChangeInterfaceLanguageAction } from "store/languages/types";
 import {
   changeSearchInputAction,
   getSearchResultThunk,
 } from "store/search/actions";
 import { ChangeSearchInputAction } from "store/search/types";
-import { Languages } from "types/common/Languages";
 import classes from "./SearchPage.module.scss";
 
 const mapStateToProps = (state: RootState) => ({
   searchInputValue: state.search.searchInputValue,
   isBtnActive: state.search.isButtonActive,
-  language: state.languages.interfaceLanguage,
 });
 
 const mapDispatchToProps = (dispatch: any) => ({
@@ -25,42 +22,23 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(changeSearchInputAction(input)),
   fetchPosts: (value: string): Promise<void> =>
     dispatch(getSearchResultThunk(value)),
-  changeLanguage: (lang: Languages): ChangeInterfaceLanguageAction =>
-    dispatch(changeInterfaceLanguageAction(lang)),
 });
 
 type SearchPageProps = {
   searchInputValue: string;
   isBtnActive: boolean;
-  language: Languages;
   onSearchInputChange: (input: string) => ChangeSearchInputAction;
-  changeLanguage: (lang: Languages) => ChangeInterfaceLanguageAction;
   fetchPosts: (value: string) => Promise<void>;
 };
 
 function SearchPage({
   searchInputValue,
   isBtnActive,
-  language,
   onSearchInputChange,
-  changeLanguage,
   fetchPosts,
 }: SearchPageProps) {
   const history = useHistory();
-  const { t, i18n } = useTranslation(Namespaces.Search);
-
-  useMemo(() => {
-    const storageLanguage = localStorage.getItem("i18nextLng");
-    switch (storageLanguage) {
-      case "de":
-        changeLanguage(Languages.de);
-        break;
-      default:
-        changeLanguage(Languages.en);
-        break;
-    }
-    return storageLanguage;
-  }, [changeLanguage]);
+  const { t } = useTranslation(Namespaces.Search);
 
   const path = useMemo(() => history.location.search.slice(7), [
     history.location.search,
@@ -88,23 +66,7 @@ function SearchPage({
   return (
     <div className={classes.searchRoot}>
       <div className={classes.searchContent}>
-        <div className={classes.languagePickerContainer}>
-          <select
-            className={classes.languagePickerDropbox}
-            value={language}
-            onChange={(e) => {
-              const currentLang = e.target.value as Languages;
-              changeLanguage(currentLang);
-              i18n.changeLanguage(currentLang);
-            }}
-          >
-            {Object.values(Languages).map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        </div>
+        <LanguagePicker />
         <form onSubmit={searchBtn}>
           <input
             className={classes.searchInput}

@@ -4,12 +4,14 @@ import SearchPage from "pages/SearchPage/SearchPage";
 import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
+import { Dispatch } from "redux";
 import { RootState } from "store";
 import { setActiveTabAction, setButtonStateAction } from "store/search/actions";
 import {
   ActiveTabAction,
   ButtonStateAction,
   PostDataObj,
+  SearchActionTypes,
 } from "store/search/types";
 import classes from "./ContentPage.module.scss";
 
@@ -18,7 +20,7 @@ const mapStateToProps = (state: RootState) => ({
   searchResult: state.search.searchResult,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
+const mapDispatchToProps = (dispatch: Dispatch<SearchActionTypes>) => ({
   setActiveTab: (tab: string): ActiveTabAction =>
     dispatch(setActiveTabAction(tab)),
   setButtonState: (isBtnActive: boolean): ButtonStateAction =>

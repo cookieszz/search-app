@@ -1,0 +1,23 @@
+$base-color: #d3d3d3;
+$base-background: #ffffff;
+$base-selected-color: #b8b8b8;
+$base-font-size: 16px;
+
+.languagePickerRoot {
+  margin-bottom: 10px;
+
+  & .languagePickerDropbox {
+    padding: 5px;
+    height: 35px;
+    width: 60px;
+    font-size: $base-font-size;
+    border-radius: 10px;
+    border: 1.5px solid $base-color;
+    background-color: $base-background;
+    outline: 0;
+
+    &:active {
+      border: 1.5px solid $base-selected-color;
+    }
+  }
+}
