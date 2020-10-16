@@ -16,7 +16,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<LanguagesActionTypes>) => ({
-  changeLanguage: (lang: Languages): ChangeInterfaceLanguageAction =>
+  changeLanguage: (lang: Languages) =>
     dispatch(changeInterfaceLanguageAction(lang)),
 });
 

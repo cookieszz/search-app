@@ -4,12 +4,13 @@ import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { ThunkDispatch } from "redux-thunk";
 import { RootState } from "store";
 import {
   changeSearchInputAction,
   getSearchResultThunk,
 } from "store/search/actions";
-import { ChangeSearchInputAction } from "store/search/types";
+import { ChangeSearchInputAction, SearchActionTypes } from "store/search/types";
 import classes from "./SearchPage.module.scss";
 
 const mapStateToProps = (state: RootState) => ({
@@ -17,11 +18,12 @@ const mapStateToProps = (state: RootState) => ({
   isBtnActive: state.search.isButtonActive,
 });
 
-const mapDispatchToProps = (dispatch: any) => ({
-  onSearchInputChange: (input: string): ChangeSearchInputAction =>
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<RootState, unknown, SearchActionTypes>,
+) => ({
+  onSearchInputChange: (input: string) =>
     dispatch(changeSearchInputAction(input)),
-  fetchPosts: (value: string): Promise<void> =>
-    dispatch(getSearchResultThunk(value)),
+  fetchPosts: (value: string) => dispatch(getSearchResultThunk(value)),
 });
 
 type SearchPageProps = {

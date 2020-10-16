@@ -21,9 +21,8 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<SearchActionTypes>) => ({
-  setActiveTab: (tab: string): ActiveTabAction =>
-    dispatch(setActiveTabAction(tab)),
-  setButtonState: (isBtnActive: boolean): ButtonStateAction =>
+  setActiveTab: (tab: string) => dispatch(setActiveTabAction(tab)),
+  setButtonState: (isBtnActive: boolean) =>
     dispatch(setButtonStateAction(isBtnActive)),
 });
 
